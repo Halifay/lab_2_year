@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mikhail/Garage/С++/lab2C++/main.cpp
+iostream
+-
+fstream
+-
+student.cpp
+/home/mikhail/Garage/С++/lab2C++/student.cpp
+
+/home/mikhail/Garage/С++/lab2C++/student.cpp
+student.h
+/home/mikhail/Garage/С++/lab2C++/student.h
+iostream
+-
+string
+-
+
+/home/mikhail/Garage/С++/lab2C++/student.h
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/lab1c2__.dir/histogram.cpp.o  -o lab1c2__ 

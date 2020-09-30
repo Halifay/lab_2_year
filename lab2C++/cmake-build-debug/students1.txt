@@ -1,0 +1,201 @@
+100
+ObvalGazonov
+miem am 54
+UgonPionov
+miem am 56
+RazborHarleev
+miem am 44
+PolivHarleev
+miem am 39
+PriborPoletov
+miem am 51
+RazborZavalov
+miem am 5
+ObvalZaboyev
+miem am 25
+PrikolZavalov
+miem am 51
+PolivZaboyev
+miem am 30
+PriborPoletov
+miem am 10
+RazborPionov
+miem am 43
+UgonPionov
+miem am 61
+ObvalGazonov
+miem am 57
+PrikolZaboyev
+miem am 0
+UgonPionov
+miem am 86
+PolivHarleev
+miem am 87
+RazborZaboyev
+miem am 88
+PriborPionov
+miem am 7
+PrikolGazonov
+miem am 38
+ObvalOboev
+miem am 24
+PrikolZaboyev
+miem am 43
+PolivPionov
+miem am 5
+PrikolPionov
+miem am 77
+RazborZavalov
+miem am 8
+PrikolZaboyev
+miem am 37
+PolivZaboyev
+miem am 90
+PolivZaboyev
+miem am 31
+RazborHarleev
+miem am 30
+RazborOboev
+miem am 33
+PolivZaboyev
+miem am 77
+RazborPionov
+miem am 37
+PriborZavalov
+miem am 69
+RazborOboev
+miem am 94
+PrikolZavalov
+miem am 54
+ObvalHarleev
+miem am 89
+UgonPionov
+miem am 16
+RazborHarleev
+miem am 7
+PriborGazonov
+miem am 53
+PriborPoletov
+miem am 39
+ObvalPoletov
+miem am 60
+PrikolPionov
+miem am 94
+PrikolOboev
+miem am 16
+UgonHarleev
+miem am 20
+PrikolPionov
+miem am 62
+PrikolPionov
+miem am 42
+ObvalZavalov
+miem am 46
+PolivOboev
+miem am 60
+PolivHarleev
+miem am 37
+UgonHarleev
+miem am 17
+ObvalHarleev
+miem am 40
+PrikolHarleev
+miem am 95
+PolivOboev
+miem am 57
+PrikolPoletov
+miem am 0
+UgonZavalov
+miem am 67
+PolivZaboyev
+miem am 64
+PriborHarleev
+miem am 63
+ObvalPionov
+miem am 19
+UgonHarleev
+miem am 63
+PrikolZavalov
+miem am 91
+PrikolGazonov
+miem am 2
+UgonZaboyev
+miem am 73
+UgonPoletov
+miem am 39
+PriborPionov
+miem am 70
+UgonZaboyev
+miem am 25
+PriborGazonov
+miem am 92
+PrikolPionov
+miem am 57
+PrikolOboev
+miem am 38
+PriborPoletov
+miem am 40
+PolivPoletov
+miem am 84
+ObvalZaboyev
+miem am 41
+RazborZavalov
+miem am 37
+UgonPionov
+miem am 100
+PrikolZavalov
+miem am 44
+PolivGazonov
+miem am 90
+UgonHarleev
+miem am 31
+UgonPoletov
+miem am 44
+ObvalGazonov
+miem am 76
+RazborPionov
+miem am 16
+PrikolPionov
+miem am 4
+PolivPoletov
+miem am 56
+RazborGazonov
+miem am 77
+ObvalPionov
+miem am 28
+ObvalPionov
+miem am 0
+PrikolOboev
+miem am 60
+RazborGazonov
+miem am 39
+RazborZavalov
+miem am 69
+RazborZaboyev
+miem am 44
+PolivOboev
+miem am 83
+PolivZaboyev
+miem am 83
+RazborZaboyev
+miem am 100
+RazborZaboyev
+miem am 35
+PrikolGazonov
+miem am 96
+UgonHarleev
+miem am 53
+PrikolZaboyev
+miem am 42
+PolivOboev
+miem am 90
+PriborZaboyev
+miem am 87
+ObvalPionov
+miem am 88
+PriborPoletov
+miem am 100
+PriborPionov
+miem am 60
+PolivHarleev
+miem am 53
