@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Sonya_lab2C__.dir/main.cpp.o  -o Sonya_lab2C__ 
