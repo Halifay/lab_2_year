@@ -43,10 +43,10 @@ RM = /snap/clion/121/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mikhail/Garage/С++/lab2C++
+CMAKE_SOURCE_DIR = /home/mikhail/Garage/C++/lab2C++
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mikhail/Garage/С++/lab2C++/cmake-build-debug
+CMAKE_BINARY_DIR = /home/mikhail/Garage/C++/lab2C++/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/lab2C__.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/lab2C__.dir/flags.make
 
 CMakeFiles/lab2C__.dir/main.cpp.o: CMakeFiles/lab2C__.dir/flags.make
 CMakeFiles/lab2C__.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mikhail/Garage/С++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lab2C__.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab2C__.dir/main.cpp.o -c /home/mikhail/Garage/С++/lab2C++/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mikhail/Garage/C++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lab2C__.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab2C__.dir/main.cpp.o -c /home/mikhail/Garage/C++/lab2C++/main.cpp
 
 CMakeFiles/lab2C__.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lab2C__.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/С++/lab2C++/main.cpp > CMakeFiles/lab2C__.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/C++/lab2C++/main.cpp > CMakeFiles/lab2C__.dir/main.cpp.i
 
 CMakeFiles/lab2C__.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lab2C__.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/С++/lab2C++/main.cpp -o CMakeFiles/lab2C__.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/C++/lab2C++/main.cpp -o CMakeFiles/lab2C__.dir/main.cpp.s
 
 CMakeFiles/lab2C__.dir/student.cpp.o: CMakeFiles/lab2C__.dir/flags.make
 CMakeFiles/lab2C__.dir/student.cpp.o: ../student.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mikhail/Garage/С++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lab2C__.dir/student.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab2C__.dir/student.cpp.o -c /home/mikhail/Garage/С++/lab2C++/student.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mikhail/Garage/C++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lab2C__.dir/student.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab2C__.dir/student.cpp.o -c /home/mikhail/Garage/C++/lab2C++/student.cpp
 
 CMakeFiles/lab2C__.dir/student.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lab2C__.dir/student.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/С++/lab2C++/student.cpp > CMakeFiles/lab2C__.dir/student.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/C++/lab2C++/student.cpp > CMakeFiles/lab2C__.dir/student.cpp.i
 
 CMakeFiles/lab2C__.dir/student.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lab2C__.dir/student.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/С++/lab2C++/student.cpp -o CMakeFiles/lab2C__.dir/student.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/C++/lab2C++/student.cpp -o CMakeFiles/lab2C__.dir/student.cpp.s
 
 # Object files for target lab2C__
 lab2C___OBJECTS = \
@@ -95,7 +95,7 @@ lab2C__: CMakeFiles/lab2C__.dir/main.cpp.o
 lab2C__: CMakeFiles/lab2C__.dir/student.cpp.o
 lab2C__: CMakeFiles/lab2C__.dir/build.make
 lab2C__: CMakeFiles/lab2C__.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mikhail/Garage/С++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable lab2C__"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mikhail/Garage/C++/lab2C++/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable lab2C__"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lab2C__.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -108,6 +108,6 @@ CMakeFiles/lab2C__.dir/clean:
 .PHONY : CMakeFiles/lab2C__.dir/clean
 
 CMakeFiles/lab2C__.dir/depend:
-	cd /home/mikhail/Garage/С++/lab2C++/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mikhail/Garage/С++/lab2C++ /home/mikhail/Garage/С++/lab2C++ /home/mikhail/Garage/С++/lab2C++/cmake-build-debug /home/mikhail/Garage/С++/lab2C++/cmake-build-debug /home/mikhail/Garage/С++/lab2C++/cmake-build-debug/CMakeFiles/lab2C__.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mikhail/Garage/C++/lab2C++/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mikhail/Garage/C++/lab2C++ /home/mikhail/Garage/C++/lab2C++ /home/mikhail/Garage/C++/lab2C++/cmake-build-debug /home/mikhail/Garage/C++/lab2C++/cmake-build-debug /home/mikhail/Garage/C++/lab2C++/cmake-build-debug/CMakeFiles/lab2C__.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/lab2C__.dir/depend
 
