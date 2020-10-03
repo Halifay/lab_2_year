@@ -3,8 +3,6 @@
 
 CMakeFiles/lab2C__.dir/main.cpp.o: ../main.cpp
 CMakeFiles/lab2C__.dir/main.cpp.o: ../student.cpp
-CMakeFiles/lab2C__.dir/main.cpp.o: ../student.h
 
 CMakeFiles/lab2C__.dir/student.cpp.o: ../student.cpp
-CMakeFiles/lab2C__.dir/student.cpp.o: ../student.h
 

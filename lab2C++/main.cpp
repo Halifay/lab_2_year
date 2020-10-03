@@ -123,7 +123,6 @@ void read_students_data(Student *&students_list, std::string &filename, int &stu
         full_name = std::string(c_full_name);
         my_file >> faculty >> specialization >> score;
         students_list[i] = Student(full_name, faculty, specialization, score);
-        // students_list[i].print_student();
     }
     my_file.close();
 }
@@ -134,7 +133,6 @@ bool is_descending(Student *&student_list, int student_count)
 {
     for(int i = 1; i < student_count; i++)
     {
-        student_list[i-1].print_student();
         if(student_list[i-1] < student_list[i])
             return false;
     }
@@ -182,15 +180,18 @@ void run_sorts(std::string &filename)
 
 int main()
 {
-    // students files have 100, 1000, 10000 and 20000 students
-    std::string filename = "/home/mikhail/Garage/С++/lab2C++/students3.txt";
-    // std::string name = "John Smith", faculty = "miem", spec = "am";
-    // Student first_student(name, faculty, spec, 100);
-    // char *path = (char *)malloc(sizeof(char) * 128);
-    // getcwd(path, 128);
-    // std::cout << path << '\n';
-    // first_student.print_student();
-    // generate_list(filename, 3, 20000);
-    run_sorts(filename);
+    std::string path_to_file = "/home/mikhail/Garage/С++/lab2C++/students";
+    std::string end_filename = "0.txt";
+    int entries_num = 500, step = 500;
+    for(int i = 0; i < 7; i++)
+    {
+        std::cout << "Experiment number " << i+1 << " with " << entries_num << " entries\n";
+        std::string full_filename = path_to_file + end_filename;
+        generate_list(full_filename, i, entries_num);
+        run_sorts(full_filename);
+        std::cout << std::endl;
+        ++end_filename[0];
+        entries_num += step;
+    }
     return 0;
 }
