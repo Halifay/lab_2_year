@@ -2,7 +2,6 @@
 // Created by mikhail on 30.09.2020.
 //
 
-#include "student.h"
 #include <iostream>
 #include <string>
 
@@ -12,6 +11,7 @@ public:
     std::string full_name, faculty, speciality;
     int point_sum;
 
+    // Три конструктора для вызова без аргументов, с массивами символов и строками.
     Student()
     {
         full_name = "";
@@ -23,7 +23,6 @@ public:
     Student(std::string &full_name_s, std::string &faculty_s,
             std::string &speciality_s, int point_sum_s)
     {
-        // Student();
         full_name = full_name_s;
         faculty = faculty_s;
         speciality = speciality_s;
@@ -33,13 +32,13 @@ public:
     Student(char *full_name_c, char *faculty_c,
             char *speciality_c, int point_sum_c)
     {
-        // Student();
         full_name = std::string(full_name_c);
         faculty = std::string(faculty_c);
         speciality = std::string(speciality_c);
         point_sum = point_sum_c;
     }
 
+    // Вроде ничего явно чистить не нужно
     ~Student()
     {
     }
@@ -50,6 +49,7 @@ public:
         speciality << " have sum of points of " << point_sum << std::endl;
     }
 
+    // Всякие операторы
     Student &operator =(const Student &second)
     {
         if(this != &second) {
@@ -78,21 +78,21 @@ public:
 
     bool operator <(const Student &second)
     {
-        return point_sum<second.point_sum;
+        return point_sum < second.point_sum || (point_sum == second.point_sum && full_name > second.full_name);
     }
 
     bool operator >(const Student &second)
     {
-        return point_sum>second.point_sum;
+        return point_sum > second.point_sum || (point_sum == second.point_sum && full_name < second.full_name);
     }
 
     bool operator <=(const Student &second)
     {
-        return point_sum<=second.point_sum;
+        return !(*this > second);
     }
 
     bool operator >=(const Student &second)
     {
-        return point_sum>=second.point_sum;
+        return !(*this < second);
     }
 };

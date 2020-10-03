@@ -6,6 +6,7 @@
 
 const int max_full_name_size = 256;
 
+// Функция для генерации списков учащихся
 void generate_list(std::string &filename, int r_seed = 0, int students_count = 100)
 {
     std::ofstream my_file;
@@ -37,16 +38,20 @@ void generate_list(std::string &filename, int r_seed = 0, int students_count = 1
 }
 
 
+// Алгоритм сортировки кучей
+// Оба алгоритма сортировки принимают на вход массив студентов и размер этого массива
+// Сортируют студентов в убывающем порядке по количеству баллов и в алфавитном по ФИО
 void heap_sort(Student *student_list, int list_size)
 {
     Student *student_heap = (Student *)calloc(sizeof(Student), list_size);
-    int max_int = (int)(((unsigned int)-1)>>1);
-    Student null_student((char *)"", (char *)"", (char *)"", max_int);
+    // int max_int = (int)(((unsigned int)-1)>>1);
+    int min_sum = -1;
+    Student null_student((char *)"", (char *)"", (char *)"", min_sum);
     for(int i = 0; i < list_size; i++)
     {
         student_heap[i] = student_list[i];
         int cur_pos = i;
-        while(cur_pos > 0 && student_heap[cur_pos] < student_heap[(cur_pos-1)/2])
+        while(cur_pos > 0 && student_heap[cur_pos] > student_heap[(cur_pos-1)/2])
         {
             std::swap(student_heap[cur_pos], student_heap[(cur_pos-1)/2]);
             cur_pos = (cur_pos - 1)/2;
@@ -67,7 +72,7 @@ void heap_sort(Student *student_list, int list_size)
             }
             if(student_heap[cur_pos*2+1] == null_student && student_heap[cur_pos*2+2] == null_student)
                 break;
-            if(student_heap[cur_pos*2+1] < student_heap[cur_pos*2+2])
+            if(student_heap[cur_pos*2+1] > student_heap[cur_pos*2+2])
             {
                 std::swap(student_heap[cur_pos], student_heap[cur_pos*2+1]);
                 cur_pos = cur_pos*2+1;
@@ -82,21 +87,24 @@ void heap_sort(Student *student_list, int list_size)
 }
 
 
+// Алгоритм сортировки выбором
 void selection_sort(Student *student_list, int list_size)
 {
     for(int i = 0; i < list_size; i++)
     {
-        int minimal_element = i;
+        int maximal_element = i;
         for(int j = i+1; j < list_size; j++)
         {
-            if(student_list[j] < student_list[minimal_element])
-                minimal_element = j;
+            if(student_list[j] > student_list[maximal_element])
+                maximal_element = j;
         }
-        std::swap(student_list[i], student_list[minimal_element]);
+        std::swap(student_list[i], student_list[maximal_element]);
     }
 }
 
 
+// Функция для чтения данных студентов из указанного текстового файла
+// Принимает на вход ссылку на массив, который нужно заполнить, путь до файла и число количества записей в файле
 void read_students_data(Student *&students_list, std::string &filename, int &student_number)
 {
     std::fstream my_file;
@@ -120,24 +128,28 @@ void read_students_data(Student *&students_list, std::string &filename, int &stu
     my_file.close();
 }
 
-bool is_ascending(Student *&student_list, int student_count)
+
+// Проверяет, что элементы массива расположены в убывающем порядке
+bool is_descending(Student *&student_list, int student_count)
 {
     for(int i = 1; i < student_count; i++)
     {
-        if(student_list[i-1] > student_list[i])
+        student_list[i-1].print_student();
+        if(student_list[i-1] < student_list[i])
             return false;
     }
     return true;
 }
 
 
+// Читает данные, запускает обе сортировки и засекает время их работы
 void run_sorts(std::string &filename)
 {
     //read list from file
     Student *first_students_list, *second_students_list;
     int student_number;
     read_students_data(first_students_list, filename, student_number);
-    if(is_ascending(first_students_list, student_number))
+    if(is_descending(first_students_list, student_number))
     {
         std::cout << "Input list " << filename << " is already sorted!!!" << std::endl;
     }
@@ -148,7 +160,7 @@ void run_sorts(std::string &filename)
     //run both sorts and measure time
     auto first_start = std::chrono::high_resolution_clock::now();
     heap_sort(first_students_list, student_number);
-    if(!is_ascending(first_students_list, student_number))
+    if(!is_descending(first_students_list, student_number))
     {
         std::cout << "Heap sort is broken on test " << filename << std::endl;
     }
@@ -158,7 +170,7 @@ void run_sorts(std::string &filename)
 
     auto second_start = std::chrono::high_resolution_clock::now();
     selection_sort(second_students_list, student_number);
-    if(!is_ascending(second_students_list, student_number))
+    if(!is_descending(second_students_list, student_number))
     {
         std::cout << "Selection sort is broken on test " << filename << std::endl;
     }
@@ -171,9 +183,9 @@ void run_sorts(std::string &filename)
 int main()
 {
     // students files have 100, 1000, 10000 and 20000 students
-    std::string filename = "/home/mikhail/Garage/С++/lab2C++/students4.txt";
+    std::string filename = "/home/mikhail/Garage/С++/lab2C++/students3.txt";
     // std::string name = "John Smith", faculty = "miem", spec = "am";
-    // Student first_student(name, faculty, spec, 228);
+    // Student first_student(name, faculty, spec, 100);
     // char *path = (char *)malloc(sizeof(char) * 128);
     // getcwd(path, 128);
     // std::cout << path << '\n';
