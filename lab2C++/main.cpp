@@ -84,6 +84,7 @@ void heap_sort(Student *student_list, int list_size)
             }
         }
     }
+    free(student_heap);
 }
 
 
@@ -175,6 +176,10 @@ void run_sorts(std::string &filename)
     auto second_stop= std::chrono::high_resolution_clock::now();
     std::cout << "Selection sort worked for " << std::chrono::duration_cast<std::chrono::
     microseconds>(second_stop - second_start).count()/(1.0e6) << " seconds" << std::endl;
+
+    //free arrays
+    free(first_students_list);
+    free(second_students_list);
 }
 
 
