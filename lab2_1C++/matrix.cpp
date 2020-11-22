@@ -155,20 +155,51 @@ IdentityMatrix<T>::IdentityMatrix(int side):Matrix<T>(side, side)
         (*this).table[i][i] = (T)1;
 }
 
+template<class T>
+void IdentityMatrix<T>::validate()
+{
+    //see in future release
+}
+
 // code for DiagonalMatrix class ---------------------------------------------------------------------------------------
 template<class T>
 DiagonalMatrix<T>::DiagonalMatrix(int side, T value):Matrix<T>(side, side)
 {
     for(int i = 0; i < side; i++)
-        (* this)[i][i] = value;
+        this->table[i][i] = value;
 }
-// code for UpperTriangleMatrix class ---------------------------------------------------------------------------------------
+
 template<class T>
-UpperTriangleMatrix<T>::UpperTriangleMatrix(int side, vector<T>):Matrix<T>(side, side)
+DiagonalMatrix<T>::DiagonalMatrix(std::vector<T> values):Matrix<T>(values.size(), values.size())
+{
+    for(int i = 0; i < values.size(); i++)
+        this->table[i][i] = values[i];
+}
+
+template<class T>
+void DiagonalMatrix<T>::validate() {}//TODO validation functions
+
+// code for UpperTriangleMatrix class ----------------------------------------------------------------------------------
+template<class T>
+UpperTriangleMatrix<T>::UpperTriangleMatrix(std::vector<std::vector<T>> values):Matrix<T>(values[0].size, values[0].size)
+{
+    int side = values[0].size();
+    for(int i = 0; i < side; i++)
+        for(int j = i; j < side; j++)
+            this->table[i][j] = values[i][j];
+}
+
+template<class T>
+UpperTriangleMatrix<T>::UpperTriangleMatrix(int side, T value):Matrix<T>(side, side)
 {
     for(int i = 0; i < side; i++)
-        (* this)[i][i] = value;
+        for(int j = i; j < side; j++)
+            this->table[i][j] = value;
 }
+
+template<class T>
+void UpperTriangleMatrix<T>::validate() {}//TODO validate function
+
 // code for LowerTriangleMatrix class ---------------------------------------------------------------------------------------
 // code for SymmetricMatrix class ---------------------------------------------------------------------------------------
 

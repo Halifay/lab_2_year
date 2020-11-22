@@ -5,7 +5,7 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
     int side = 3;
     std::vector<std::vector<int>> table = std::vector<std::vector<int>>(side, std::vector<int>(side, 1));
-    matrix::IdentityMatrix<int> imat(side);
+    matrix::DiagonalMatrix<int> imat(side, side);
     for(int i = 0; i < side; i++)
     {
         std::cout << std::endl;

@@ -54,7 +54,7 @@ namespace matrix
     {
     public:
         UpperTriangleMatrix(int, T);
-        UpperTriangleMatrix(std::vector<T>);
+        UpperTriangleMatrix(std::vector<std::vector<T>>);
         void validate()override;
     };
 
