@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mikhail/Garage/C++/lab2_1C++/main.cpp
+iostream
+-
+matrix.cpp
+/home/mikhail/Garage/C++/lab2_1C++/matrix.cpp
+
+/home/mikhail/Garage/C++/lab2_1C++/matrix.cpp
+matrix.h
+/home/mikhail/Garage/C++/lab2_1C++/matrix.h
+stdexcept
+-
+iostream
+-
+
+/home/mikhail/Garage/C++/lab2_1C++/matrix.h
+vector
+-
+

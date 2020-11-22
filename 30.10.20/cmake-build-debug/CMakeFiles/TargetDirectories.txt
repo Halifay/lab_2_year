@@ -1,0 +1,3 @@
+/home/mikhail/Garage/C++/30.10.20/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mikhail/Garage/C++/30.10.20/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mikhail/Garage/C++/30.10.20/cmake-build-debug/CMakeFiles/30_10_20.dir

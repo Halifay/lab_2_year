@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/mikhail/Garage/С++/lab1c++/histogram.cpp
+/home/mikhail/Garage/C++/lab1c++/histogram.cpp
 histogram.h
-/home/mikhail/Garage/С++/lab1c++/histogram.h
+/home/mikhail/Garage/C++/lab1c++/histogram.h
 iostream
 -
 string.h
@@ -18,17 +18,17 @@ iomanip
 algorithm
 -
 
-/home/mikhail/Garage/С++/lab1c++/histogram.h
+/home/mikhail/Garage/C++/lab1c++/histogram.h
 histogram.inl
-/home/mikhail/Garage/С++/lab1c++/histogram.inl
+/home/mikhail/Garage/C++/lab1c++/histogram.inl
 
-/home/mikhail/Garage/С++/lab1c++/histogram.inl
+/home/mikhail/Garage/C++/lab1c++/histogram.inl
 histogram.cpp
-/home/mikhail/Garage/С++/lab1c++/histogram.cpp
+/home/mikhail/Garage/C++/lab1c++/histogram.cpp
 
-/home/mikhail/Garage/С++/lab1c++/main.cpp
+/home/mikhail/Garage/C++/lab1c++/main.cpp
 histogram.h
-/home/mikhail/Garage/С++/lab1c++/histogram.h
+/home/mikhail/Garage/C++/lab1c++/histogram.h
 iostream
 -
 iomanip
