@@ -31,12 +31,15 @@ Matrix<T>::Matrix(std::vector<std::vector<T>> &input_vector):Matrix(input_vector
         }
 
     }
-    validate();
+    // validate();
 }
+
+template<class T>
+Matrix<T>::Matrix(std::vector<T> &values):Matrix(std::vector<std::vector<T>>(1, values)) {}
 
 // first is height, second is length
 template<class T>
-std::pair<int, int> Matrix<T>::get_dimensions()
+std::pair<int, int> Matrix<T>::get_dimensions()const
 {
     std::pair<int, int> result;
     result.first = table.size();
@@ -45,7 +48,7 @@ std::pair<int, int> Matrix<T>::get_dimensions()
 }
 
 template<class T>
-bool Matrix<T>::check_sizes(const Matrix<T> &first, const Matrix<T> &second)
+bool Matrix<T>::check_sizes(const Matrix<T> &first, const Matrix<T> &second)const
 {
     return first.get_dimensions() == second.get_dimensions();
 }
@@ -57,17 +60,23 @@ void Matrix<T>::validate()
 }
 
 template<class T>
-const std::vector<T> &Matrix<T>::operator [](int i)
+const std::vector<T> &Matrix<T>::operator [](int i)const
 {
     return table[i];
 }
 
 template<class T>
-Matrix<T> Matrix<T>::operator +(const Matrix<T> &second)
+std::vector<T> &Matrix<T>::operator [](int i)
+{
+    return table[i];
+}
+
+template<class T>
+Matrix<T> Matrix<T>::operator +(const Matrix<T> &second)const
 {
     if(!check_sizes(*this, second))
         throw std::invalid_argument("Matrices have different dimensions!");
-    auto sizes = get_dimensions(*this);
+    auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
     for(int i = 0; i < sizes.second; i++)
         for(int j = 0; j < sizes.first; j++)
@@ -76,11 +85,11 @@ Matrix<T> Matrix<T>::operator +(const Matrix<T> &second)
 }
 
 template<class T>
-Matrix<T> Matrix<T>::operator -(const Matrix<T> &second)
+Matrix<T> Matrix<T>::operator -(const Matrix<T> &second)const
 {
     if(!check_sizes(*this, second))
         throw std::invalid_argument("Matrices have different dimensions!");
-    auto sizes = get_dimensions(*this);
+    auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
     for(int i = 0; i < sizes.second; i++)
         for(int j = 0; j < sizes.first; j++)
@@ -90,9 +99,9 @@ Matrix<T> Matrix<T>::operator -(const Matrix<T> &second)
 
 template<class T>
 template<typename mult>
-Matrix<T> Matrix<T>::operator *(mult second)
+Matrix<T> Matrix<T>::operator *(mult second)const
 {
-    auto sizes = get_dimensions(*this);
+    auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
     for(int i = 0; i < sizes.second; i++)
         for(int j = 0; j < sizes.first; j++)
@@ -101,9 +110,9 @@ Matrix<T> Matrix<T>::operator *(mult second)
 }
 
 template<class T>
-Matrix<T> Matrix<T>::operator *(const Matrix<T> &second)
+Matrix<T> Matrix<T>::operator *(const Matrix<T> &second)const
 {
-    auto fdim = this->get_dimensions(), sdim = second.get_dimensions();
+    auto fdim = get_dimensions(), sdim = second.get_dimensions();
     if(fdim.second != sdim.first)
         throw std::invalid_argument("Matrices have incompatible sizes "
                                     "(number of columns of first matrix must be equal to number of rows of second).");
@@ -122,11 +131,11 @@ Matrix<T> operator *(int first, const Matrix<T> &second)
 }
 
 template<class T>
-Matrix<T> Matrix<T>::adamar(const Matrix<T> &second)
+Matrix<T> Matrix<T>::adamar(const Matrix<T> &second)const
 {
     if(!check_sizes(*this, second))
         throw std::invalid_argument("Matrices have different dimensions!");
-    auto sizes = this->get_dimensions();
+    auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
     for(int i = 0; i < sizes.first; i++)
         for(int j = 0; j < sizes.second; j++)
@@ -135,7 +144,7 @@ Matrix<T> Matrix<T>::adamar(const Matrix<T> &second)
 }
 
 template<class T>
-const Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
+Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
 {
     auto dims = second.get_dimensions();
     Matrix(dims.first, dims.second);
@@ -144,6 +153,31 @@ const Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
             table[i][j] = second[i][j];
     validate();
     return *this;
+}
+
+template<class T>
+std::ostream &operator<<(std::ostream &out, const Matrix<T> &matrix1)
+{
+    for(auto line : matrix1.table)
+    {
+        for (auto element : line)
+            out << element << ' ';
+        out << '/';
+    }
+
+    return out;
+}
+
+template<class T>
+std::istream &operator>>(std::istream &in, const Matrix<T> &matrix1)
+{
+    int height, width;
+    in >> height >> width;
+    std::vector<std::vector<T>> new_table(height, std::vector<T>(width));
+    for(int i = 0; i < height; i++)
+        for(int j = 0; j < width; j++)
+            in >> new_table[i][j];
+    matrix1(new_table);
 }
 
 
@@ -156,10 +190,7 @@ IdentityMatrix<T>::IdentityMatrix(int side):Matrix<T>(side, side)
 }
 
 template<class T>
-void IdentityMatrix<T>::validate()
-{
-    //see in future release
-}
+void IdentityMatrix<T>::validate() {}
 
 // code for DiagonalMatrix class ---------------------------------------------------------------------------------------
 template<class T>
@@ -201,5 +232,48 @@ template<class T>
 void UpperTriangleMatrix<T>::validate() {}//TODO validate function
 
 // code for LowerTriangleMatrix class ---------------------------------------------------------------------------------------
-// code for SymmetricMatrix class ---------------------------------------------------------------------------------------
+template<class T>
+LowerTriangleMatrix<T>::LowerTriangleMatrix(std::vector<std::vector<T>> values):Matrix<T>(values[0].size, values[0].size)
+{
+    int side = values[0].size();
+    for(int i = 0; i < side; i++)
+        for(int j = 0; j <= i; j++)
+            this->table[i][j] = values[i][j];
+}
 
+template<class T>
+LowerTriangleMatrix<T>::LowerTriangleMatrix(int side, T value):Matrix<T>(side, side)
+{
+    for(int i = 0; i < side; i++)
+        for(int j = 0; j <= i; j++)
+            this->table[i][j] = value;
+}
+
+template<class T>
+void LowerTriangleMatrix<T>::validate() {}//TODO validate function
+
+// code for SymmetricMatrix class ---------------------------------------------------------------------------------------
+template<class T>
+// by default constructor will use only upper triangle half of the given array. If upper=false then it will use lower.
+SymmetricMatrix<T>::SymmetricMatrix(std::vector<std::vector<T>> values, bool upper):Matrix<T>(values)
+{
+    // validate();
+    int side = values[0].size();
+    for(int i = 0; i < side; i++)
+        for(int j = 0; j < i; j++)
+            if(upper)
+                this->table[i][j] = values[j][i];
+            else
+                this->table[j][i] = values[i][j];
+}
+
+template<class T>
+SymmetricMatrix<T>::SymmetricMatrix(int side, T value):Matrix<T>(side, side)
+{
+    for(int i = 0; i < side; i++)
+        for(int j = 0; j < side; j++)
+            this->table[i][j] = value;
+}
+
+template<class T>
+void SymmetricMatrix<T>::validate() {}

@@ -5,6 +5,8 @@
 #ifndef LAB2_1C___MATRIX_H
 #define LAB2_1C___MATRIX_H
 #include <vector>
+#include <iostream>
+
 namespace matrix
 {
     template<class T>
@@ -15,22 +17,31 @@ namespace matrix
     public:
         Matrix(int, int);
         Matrix(std::vector<std::vector<T>> &);
+        Matrix(std::vector<T> &);
 
-        std::pair<int, int> get_dimensions();
-        bool check_sizes(const Matrix<T> &, const Matrix<T> &);
+        std::pair<int, int> get_dimensions()const;
+        bool check_sizes(const Matrix<T> &, const Matrix<T> &)const;
         virtual void validate();
 
-        // ALERT! User can change variable which he should not with [] operator!!!
-        const std::vector<T> &operator[](int);
-        Matrix<T> operator+(const Matrix<T>&);
-        Matrix<T> operator-(const Matrix<T>&);
-        Matrix<T> operator *(const Matrix<T>&);
+        // ALERT! User can change variable and implicitly change type of matrix (without logicaly changing it) with [] operator!!!
+        const std::vector<T> &operator[](int)const;
+        std::vector<T> &operator[](int);
+        Matrix<T> operator+(const Matrix<T>&)const;
+        Matrix<T> operator-(const Matrix<T>&)const;
+        Matrix<T> operator*(const Matrix<T>&)const;
         template<typename mult=int>
-        Matrix<T> operator *(mult);
-        Matrix<T> adamar(const Matrix<T>&);
-        const Matrix<T> &operator =(const Matrix<T>&);
+        Matrix<T> operator*(mult)const;
+        Matrix<T> adamar(const Matrix<T>&)const;
+        Matrix<T> &operator=(const Matrix<T>&);
 
+        // template<class T2>
+        friend std::ostream &operator<<(std::ostream &, const Matrix<T> &);
+
+        template<class T2>
+        friend std::istream &operator>>(std::istream &, const Matrix<T2> &);
     };
+
+
 
     template<class T>
     class IdentityMatrix: public Matrix<T>
@@ -63,16 +74,16 @@ namespace matrix
     {
     public:
         LowerTriangleMatrix(int, T);
-        LowerTriangleMatrix(std::vector<T>);
+        LowerTriangleMatrix(std::vector<std::vector<T>>);
         void validate()override;
     };
 
     template<class T>
-    class SymmetricalMatrix: public Matrix<T>
+    class SymmetricMatrix: public Matrix<T>
     {
     public:
-        SymmetricalMatrix(int, T);
-        SymmetricalMatrix(std::vector<T>);
+        SymmetricMatrix(int, T);
+        SymmetricMatrix(std::vector<std::vector<T>>, bool upper=true);
         void validate()override;
 
     };
