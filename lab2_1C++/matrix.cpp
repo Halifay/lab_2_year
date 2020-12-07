@@ -4,7 +4,7 @@
 
 #include "matrix.h"
 #include <stdexcept>
-#include_next <type_traits>
+#include <type_traits>
 #include <iostream>
 using namespace matrix;
 
@@ -98,8 +98,7 @@ Matrix<T> Matrix<T>::operator -(const Matrix<T> &second)const
 }
 
 template<class T>
-template<typename mult>
-Matrix<T> Matrix<T>::operator *(mult second)const
+Matrix<T> Matrix<T>::operator *(T second)const
 {
     auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
@@ -131,7 +130,7 @@ Matrix<T> operator *(int first, const Matrix<T> &second)
 }
 
 template<class T>
-Matrix<T> Matrix<T>::adamar(const Matrix<T> &second)const
+Matrix<T> Matrix<T>::hadamard(const Matrix<T> &second)const
 {
     if(!check_sizes(*this, second))
         throw std::invalid_argument("Matrices have different dimensions!");
@@ -149,7 +148,7 @@ Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
     auto dims = second.get_dimensions();
     Matrix(dims.first, dims.second);
     for(int i = 0; i < dims.first; i ++)
-        for(int j = 0; j < dims; j++)
+        for(int j = 0; j < dims.second; j++)
             table[i][j] = second[i][j];
     validate();
     return *this;
@@ -162,7 +161,7 @@ std::ostream &operator<<(std::ostream &out, const Matrix<T> &matrix1)
     {
         for (auto element : line)
             out << element << ' ';
-        out << '/';
+        out << '\n';
     }
 
     return out;
@@ -212,7 +211,8 @@ void DiagonalMatrix<T>::validate() {}//TODO validation functions
 
 // code for UpperTriangleMatrix class ----------------------------------------------------------------------------------
 template<class T>
-UpperTriangleMatrix<T>::UpperTriangleMatrix(std::vector<std::vector<T>> values):Matrix<T>(values[0].size, values[0].size)
+UpperTriangleMatrix<T>::UpperTriangleMatrix(std::vector<std::vector<T>> values):
+Matrix<T>(values[0].size(), values[0].size())
 {
     int side = values[0].size();
     for(int i = 0; i < side; i++)
@@ -233,7 +233,8 @@ void UpperTriangleMatrix<T>::validate() {}//TODO validate function
 
 // code for LowerTriangleMatrix class ---------------------------------------------------------------------------------------
 template<class T>
-LowerTriangleMatrix<T>::LowerTriangleMatrix(std::vector<std::vector<T>> values):Matrix<T>(values[0].size, values[0].size)
+LowerTriangleMatrix<T>::LowerTriangleMatrix(std::vector<std::vector<T>> values):
+Matrix<T>(values[0].size(), values[0].size())
 {
     int side = values[0].size();
     for(int i = 0; i < side; i++)

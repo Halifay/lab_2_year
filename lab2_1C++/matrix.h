@@ -12,9 +12,8 @@ namespace matrix
     template<class T>
     class Matrix
     {
-    protected:
-        std::vector<std::vector<T>> table;
     public:
+        std::vector<std::vector<T>> table;
         Matrix(int, int);
         Matrix(std::vector<std::vector<T>> &);
         Matrix(std::vector<T> &);
@@ -29,19 +28,13 @@ namespace matrix
         Matrix<T> operator+(const Matrix<T>&)const;
         Matrix<T> operator-(const Matrix<T>&)const;
         Matrix<T> operator*(const Matrix<T>&)const;
-        template<typename mult=int>
-        Matrix<T> operator*(mult)const;
-        Matrix<T> adamar(const Matrix<T>&)const;
+        Matrix<T> operator*(T)const;
+        Matrix<T> hadamard(const Matrix<T>&)const;
         Matrix<T> &operator=(const Matrix<T>&);
 
-        // template<class T2>
         friend std::ostream &operator<<(std::ostream &, const Matrix<T> &);
-
-        template<class T2>
-        friend std::istream &operator>>(std::istream &, const Matrix<T2> &);
+        friend std::istream &operator>>(std::istream &, const Matrix<T> &);
     };
-
-
 
     template<class T>
     class IdentityMatrix: public Matrix<T>
