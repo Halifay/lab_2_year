@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <iostream>
 using namespace matrix;
+const double eps = 1e-6;
 
 // code for Matrix class -----------------------------------------------------------------------------------------------
 template<class T>
@@ -16,6 +17,15 @@ table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)0)))
     static_assert(std::is_arithmetic<T>::value, "The matrix has to be of arithmetic type!");
     if(length*height <= 0 or height < 0)
         throw std::invalid_argument("Matrix length or height must be bigger than 0.");
+}
+
+template<class T>
+Matrix<T>::Matrix(int height, int length, int rseed, int max):Matrix(height, length)
+{
+    std::srand(rseed);
+    for(int i = 0; i < height; i++)
+        for(int j = 0; j < length; j++)
+            table[i][j] = (T)(std::rand()%max);
 }
 
 template<class T>
@@ -57,6 +67,50 @@ template<class T>
 void Matrix<T>::validate()
 {
     return;
+}
+
+template<class T>
+T Matrix<T>::Gauss(int from_up, int from_left)
+{
+    auto sizes = get_dimensions();
+    if(sizes.first - from_up < 1 || sizes.second - from_left < 1)
+        return 1;
+    T result = 1;
+    bool is_null = false;
+    for(int i = from_up; i < sizes.first; i++)
+    {
+        if(double(abs(table[i][from_left])) < eps)
+        {
+            if(i == from_up)
+                result = 1;
+            else
+                result = -1;
+            is_null = true;
+            std::swap(table[i], table[from_up]);
+            break;
+        }
+    }
+    if(is_null)
+    {
+        return Gauss(from_up, from_left + 1);
+    }
+    else
+    {
+        for(int i = from_up + 1; i < sizes.first; i++)
+        {
+            T coefficient = table[i][from_left]/table[from_up][from_left];
+            for(int j = from_left; j < sizes.second; j++)
+            {
+                table[i][j] -= table[from_up][j] * coefficient;
+            }
+        }
+        result *= table[from_up][from_left] * Gauss(from_up + 1, from_left + 1);
+        for(int j = sizes.second-1; j>=from_left; j--)
+        {
+            table[from_up][j] /= table[from_up][from_left];
+        }
+    }
+    return result;
 }
 
 template<class T>

@@ -7,33 +7,58 @@
 #include <vector>
 #include <iostream>
 
+namespace matrix{
+    template<class T>
+    class Matrix;
+}
+
+template<class T>
+std::ostream &operator<<(std::ostream&, const matrix::Matrix<T>&);
+template<class T>
+std::istream &operator>>(std::istream&, const matrix::Matrix<T>&);
+
 namespace matrix
 {
     template<class T>
     class Matrix
     {
-    public:
+    protected:
         std::vector<std::vector<T>> table;
+    public:
         Matrix(int, int);
+        Matrix(int, int, int, int max = 10);
         Matrix(std::vector<std::vector<T>> &);
         Matrix(std::vector<T> &);
 
         std::pair<int, int> get_dimensions()const;
         bool check_sizes(const Matrix<T> &, const Matrix<T> &)const;
         virtual void validate();
+        T Gauss(int from_up = 0, int from_left = 0);
+        T determinant();
+        T scalar(Matrix<T> &);
+        T v_norm_max();
+        T v_norm_euc();
+        double angle(Matrix &);
+        int rank();
+        Matrix<T> inverse();
+        Matrix<T> &Transpose();
+
 
         // ALERT! User can change variable and implicitly change type of matrix (without logicaly changing it) with [] operator!!!
         const std::vector<T> &operator[](int)const;
         std::vector<T> &operator[](int);
-        Matrix<T> operator+(const Matrix<T>&)const;
-        Matrix<T> operator-(const Matrix<T>&)const;
-        Matrix<T> operator*(const Matrix<T>&)const;
+        Matrix<T> operator+(const Matrix<T> &)const;
+        Matrix<T> operator-(const Matrix<T> &)const;
+        Matrix<T> operator*(const Matrix<T> &)const;
         Matrix<T> operator*(T)const;
-        Matrix<T> hadamard(const Matrix<T>&)const;
-        Matrix<T> &operator=(const Matrix<T>&);
+        Matrix<T> hadamard(const Matrix<T> &)const;
+        Matrix<T> &operator=(const Matrix<T> &);
 
-        friend std::ostream &operator<<(std::ostream &, const Matrix<T> &);
-        friend std::istream &operator>>(std::istream &, const Matrix<T> &);
+
+        template<class T2>
+        friend std::ostream &::operator<<(std::ostream &, const matrix::Matrix<T2> &);
+        template<class T2>
+        friend std::istream &::operator>>(std::istream &, const matrix::Matrix<T2> &);
     };
 
     template<class T>

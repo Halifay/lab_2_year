@@ -226,13 +226,40 @@ void test_SymmetricMatrix()
 }
 
 
-int main() {
+void first_lab_tests()
+{
     test_Matrix();
     test_IdentityMatrix();
     test_DiagonalMatrix();
     test_UpperTriangleMatrix();
     test_LowerTriangleMatrix();
     test_SymmetricMatrix();
+}
+
+void second_lab_tests()
+{
+    Matrix<double> first(3, 3, 1), second(3, 3, 2);
+    std::cout << "first\n" << first << '\n';
+    std::cout << "second\n" << second << '\n';
+    std::cout << "det = " << first.Gauss() << '\n';
+    std::cout << "first matrix in gaussian form\n" << first << '\n';
+}
+
+void third_lab_tests()
+{
+
+}
+
+void fourth_lab_tests()
+{
+
+}
+
+int main() {
+    // first_lab_tests();
+    second_lab_tests();
+    third_lab_tests();
+    fourth_lab_tests();
 
     return 0;
 }
