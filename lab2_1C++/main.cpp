@@ -1,5 +1,6 @@
 #include <iostream>
 #include "matrix.cpp"
+#include <fstream>
 
 void test_Matrix()
 {
@@ -7,6 +8,11 @@ void test_Matrix()
     Matrix<int> mat1(side, side);
     subtest_n++;
     std::cout << "test " << test_n << "." << subtest_n << "\n" << mat1 << std::endl; // check (int, int) constructor
+
+    std::vector<int> vector_tester = std::vector<int>{1, 2, 3};
+    Matrix<int> vector(vector_tester);
+    subtest_n++;
+    std::cout << "test " << test_n << "." << subtest_n << '\n' << vector << std::endl;
 
     std::vector<std::vector<int>> table = std::vector<std::vector<int>>(side, std::vector<int>(side));
     for(int i = 0; i < side; i++)
@@ -223,6 +229,7 @@ void test_SymmetricMatrix()
     Matrix<int> mat7 = mat2.hadamard(mat2);
     subtest_n++;
     std::cout << "test " << test_n << "." << subtest_n << "\n" << mat7 << std::endl; //check Hadamard product
+
 }
 
 
@@ -236,30 +243,83 @@ void first_lab_tests()
     test_SymmetricMatrix();
 }
 
-void second_lab_tests()
+void second_and_third_lab_tests()
 {
     Matrix<double> first(3, 3, 1), second(3, 3, 2);
-    std::cout << "first\n" << first << '\n';
-    std::cout << "second\n" << second << '\n';
-    std::cout << "det = " << first.Gauss() << '\n';
-    std::cout << "first matrix in gaussian form\n" << first << '\n';
-}
+    std::cout << "first\n" << first << std::endl;
+    std::cout << "second\n" << second << std::endl;
+    std::cout << "rank of second matrix\n" << second.rank() << std::endl;
+    std::cout << "det = " << second.Gauss() << std::endl;
+    std::cout << "second matrix in gaussian form\n" << second << std::endl;
+    std::cout << "previous matrix transposed\n" << first.Transpose() << std::endl;
+    std::cout << "first matrix inverted\n" << first.Transpose().inverse() << std::endl;
+    std::cout << "first matrix * first matrix inverted\n" << first * first.inverse() << std::endl;
+    std::cout << "first matrix Frobenius norm\n" << first.m_form_frb() << std::endl;
 
-void third_lab_tests()
-{
-
+    std::cout << "\nNext are vector operations" << std::endl;
+    std::vector<double> first_vector = {1/std::sqrt(3), 1/std::sqrt(3), 1/std::sqrt(3)},
+        second_vector = {1, 1, -1};
+    Matrix<double> first_v(first_vector), second_v(second_vector);
+    std::cout << "First vector: " << first_v << std::endl << "Second vector: " << second_v << std::endl;
+    std::cout << "Scalar product: " << first_v.scalar(second_v) << std::endl;
+    std::cout << "Euclidean norm of the first vector: " << first_v.v_norm_euc() << std::endl;
+    std::cout << "Maximum norm of the second vector: " << second_v.v_norm_max() << std::endl;
+    std::cout << "Radian angle between two vectors: " << first_v.angle(second_v) << "\nIn degrees: "
+        << first_v.angle(second_v)/M_PI*180 << std::endl;
 }
 
 void fourth_lab_tests()
 {
+    Matrix<double> file_input;
+    std::string common_path = "/home/mikhail/Garage/C++/lab2_1C++";
+    std::string data = "/data.", loadings = "/loadings.", scores = "/scores.";
+    std::cout <<"Reading data.txt" << std::endl;
 
+    std::cout << "writing data.txt contents to data.bin" << std::endl;
+    std::fstream input;
+    input.open(common_path + data + "txt");
+    input >> file_input;
+    std::cout << file_input << std::endl;
+    std::ofstream output;
+    output.open(common_path + data + "bin");
+    output << file_input;
+    input.close();
+    output.close();
+
+    std::cout << "writing loadings.txt contents to loadings.bin" << std::endl;
+    input.open(common_path + loadings + "txt");
+    input >> file_input;
+    std::cout << file_input << std::endl;
+    output.open(common_path + loadings + "bin");
+    output << file_input;
+    input.close();
+    output.close();
+
+    std::cout << "writing scores.txt contents to scores.bin" << std::endl;
+    input.open(common_path + scores + "txt");
+    input >> file_input;
+    std::cout << file_input << std::endl;
+    output.open(common_path + scores + "bin");
+    output << file_input;
+    input.close();
+    output.close();
+
+    std::cout << "Check input yourself, type numbers separated by spaces in rows separated by line breaks."
+                 "Don't forget to press enter twice at the end." << std::endl;
+    Matrix<int> hand_input{};
+    std::cin >> hand_input;
+    input.open(common_path + "/user_input.txt");
+    input << hand_input;
+    std::cout << "Your input is\n" << hand_input << std::endl;
+    std::cout << "It saved under user_input.txt" << std::endl;
+    input.close();
 }
 
 int main() {
+
     // first_lab_tests();
-    second_lab_tests();
-    third_lab_tests();
-    fourth_lab_tests();
+    second_and_third_lab_tests();
+    // fourth_lab_tests();
 
     return 0;
 }

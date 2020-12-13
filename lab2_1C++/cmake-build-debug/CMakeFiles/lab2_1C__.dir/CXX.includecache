@@ -11,6 +11,8 @@ iostream
 -
 matrix.cpp
 /home/mikhail/Garage/C++/lab2_1C++/matrix.cpp
+fstream
+-
 
 /home/mikhail/Garage/C++/lab2_1C++/matrix.cpp
 matrix.h
@@ -20,6 +22,12 @@ stdexcept
 type_traits
 -
 iostream
+-
+cmath
+-
+sstream
+-
+algorithm
 -
 
 /home/mikhail/Garage/C++/lab2_1C++/matrix.h

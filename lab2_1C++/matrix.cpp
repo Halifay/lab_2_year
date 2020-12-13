@@ -6,10 +6,17 @@
 #include <stdexcept>
 #include <type_traits>
 #include <iostream>
+#include <cmath>
+#include <sstream>
+#include <algorithm>
 using namespace matrix;
 const double eps = 1e-6;
+const int max_length = 511;
 
 // code for Matrix class -----------------------------------------------------------------------------------------------
+template<class T>
+Matrix<T>::Matrix(){}
+
 template<class T>
 Matrix<T>::Matrix(int height, int length):
 table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)0)))
@@ -29,7 +36,8 @@ Matrix<T>::Matrix(int height, int length, int rseed, int max):Matrix(height, len
 }
 
 template<class T>
-Matrix<T>::Matrix(std::vector<std::vector<T>> &input_vector):Matrix(input_vector.size(), input_vector[0].size())
+Matrix<T>::Matrix(const std::vector<std::vector<T>> &input_vector):
+Matrix(input_vector.size(), input_vector[0].size())
 {
     if(input_vector.size() == 0)
         throw std::invalid_argument("The input vector has to have length more than 0.");
@@ -45,7 +53,7 @@ Matrix<T>::Matrix(std::vector<std::vector<T>> &input_vector):Matrix(input_vector
 }
 
 template<class T>
-Matrix<T>::Matrix(std::vector<T> &values):Matrix(std::vector<std::vector<T>>(1, values)) {}
+Matrix<T>::Matrix(const std::vector<T> &values):Matrix(std::vector<std::vector<T>>(1, values)) {}
 
 // first is height, second is length
 template<class T>
@@ -76,23 +84,23 @@ T Matrix<T>::Gauss(int from_up, int from_left)
     if(sizes.first - from_up < 1 || sizes.second - from_left < 1)
         return 1;
     T result = 1;
-    bool is_null = false;
+    bool is_null = true;
     for(int i = from_up; i < sizes.first; i++)
     {
-        if(double(abs(table[i][from_left])) < eps)
+        if(double(abs(table[i][from_left])) > eps)
         {
             if(i == from_up)
                 result = 1;
             else
                 result = -1;
-            is_null = true;
+            is_null = false;
             std::swap(table[i], table[from_up]);
             break;
         }
     }
     if(is_null)
     {
-        return Gauss(from_up, from_left + 1);
+        return 0*Gauss(from_up, from_left + 1);
     }
     else
     {
@@ -111,6 +119,158 @@ T Matrix<T>::Gauss(int from_up, int from_left)
         }
     }
     return result;
+}
+
+template<class T>
+T Matrix<T>::determinant()const
+{
+    auto sizes = get_dimensions();
+    if(sizes.first != sizes.second)
+        return 0;
+    Matrix<T> for_det(table);
+    T res = for_det.Gauss();
+    return res;
+}
+
+template<class T>
+Matrix<T> &Matrix<T>::Transpose()
+{
+    auto sizes = get_dimensions();
+    Matrix<T> new_matrix(sizes.second, sizes.first);
+    for(int i = 0; i < sizes.first; i++)
+    {
+        for(int j = 0; j < sizes.second; j++)
+        {
+            new_matrix[j][i] = table[i][j];
+        }
+    }
+    *this = new_matrix;
+    return *this;
+}
+
+template<class T>
+int Matrix<T>::rank()const
+{
+    Matrix<T> new_matrix(table);
+    new_matrix.Gauss();
+    auto sizes = get_dimensions();
+    int rank = 0;
+    for(int i = 0; i < sizes.first; i++)
+    {
+        for(int j = i; j < sizes.second; j++)
+        {
+            if(abs(new_matrix[i][j]) > eps)
+            {
+                rank++;
+                break;
+            }
+            return rank;
+        }
+    }
+    return rank;
+}
+
+template<class T>
+Matrix<T> Matrix<T>::inverse() const
+{
+    auto sizes = get_dimensions();
+    if(abs(determinant()) < eps)
+    {
+        return Matrix<T>(sizes.first, sizes.second);
+    }
+    Matrix<T> inverted(table);
+
+    for(int i = 0; i < sizes.first; i++)
+    {
+        // inverted.table.resize(sizes.second * 2);
+        for(int j = sizes.second; j < sizes.second * 2; j++)
+        {
+            if(i == j - sizes.second)
+                inverted.table[i].push_back(1);
+            else
+                inverted.table[i].push_back(0);
+        }
+    }
+    inverted.Gauss();
+    // std::cout << inverted << std::endl;
+    for(int i = 0; i < sizes.first; i++)
+    {
+        for(int j = i-1; j >= 0; j--)
+        {
+            T ratio = inverted.table[j][i]/inverted.table[i][i];
+            for(int k = i; k < sizes.second*2; k++)
+            {
+                inverted.table[j][k] -= ratio * inverted.table[i][k];
+            }
+        }
+    }
+    std::vector<std::vector<T>> result;
+    result.resize(sizes.first);
+    for(int i = 0; i < sizes.first; i++)
+    {
+        result[i] = std::vector<T>(inverted.table[i].begin() + sizes.second, inverted.table[i].end());
+    }
+
+    return Matrix<T>(result);
+}
+
+template<class T>
+T Matrix<T>::scalar(const Matrix<T> &second) const
+{
+    auto sizes1 = get_dimensions(), sizes2 = second.get_dimensions();
+    if(sizes1 != sizes2 || sizes1.first != 1)
+        throw std::invalid_argument("Incompatible sizes for vector scalar operation.");
+    T result = 0;
+    for(int i = 0; i < sizes1.second; i++)
+    {
+        result += table[0][i] * second[0][i];
+    }
+    return result;
+}
+
+template<class T>
+T Matrix<T>::v_norm_euc() const
+{
+    auto sizes = get_dimensions();
+    if(sizes.first != 1 || sizes.second < 0)
+        throw std::invalid_argument("Vector has have one row with at least 1 number in it.");
+    T result = 0;
+    for(T coordinate : table[0])
+    {
+        result += coordinate*coordinate;
+    }
+    return std::sqrt(result);
+}
+
+template<class T>
+T Matrix<T>::v_norm_max() const
+{
+    auto sizes = get_dimensions();
+    if(sizes.first != 1 || sizes.second < 0)
+        throw std::invalid_argument("Vector has have one row with at least 1 number in it.");
+    T result = table[0][0];
+    for(T coordinate : table[0])
+    {
+        result = std::max(result, coordinate);
+    }
+    return result;
+}
+
+template<class T>
+double Matrix<T>::angle(const Matrix<T> &second) const
+{
+    T product = scalar(second), lenf = v_norm_euc(), lens = second.v_norm_euc();
+    return std::acos(product/(lenf*lens));
+}
+
+template<class T>
+T Matrix<T>::m_form_frb() const
+{
+    T result = 0;
+    for(auto line : table)
+        for(T value : line)
+            result += value * value;
+    return std::sqrt(result);
 }
 
 template<class T>
@@ -209,12 +369,12 @@ Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
 }
 
 template<class T>
-std::ostream &operator<<(std::ostream &out, const Matrix<T> &matrix1)
+std::ostream &operator <<(std::ostream &out, const Matrix<T> &matrix1)
 {
     for(auto line : matrix1.table)
     {
         for (auto element : line)
-            out << element << ' ';
+            out << element << '\t';
         out << '\n';
     }
 
@@ -222,15 +382,35 @@ std::ostream &operator<<(std::ostream &out, const Matrix<T> &matrix1)
 }
 
 template<class T>
-std::istream &operator>>(std::istream &in, const Matrix<T> &matrix1)
+std::istream &operator >>(std::istream &in, Matrix<T> &matrix1)
 {
-    int height, width;
-    in >> height >> width;
-    std::vector<std::vector<T>> new_table(height, std::vector<T>(width));
-    for(int i = 0; i < height; i++)
-        for(int j = 0; j < width; j++)
-            in >> new_table[i][j];
-    matrix1(new_table);
+    std::vector<std::vector<T>> new_table; //(height, std::vector<T>(width));
+    std::string line;
+    std::stringstream sstream;
+    getline(in, line, '\n');
+    int size = -1;
+    while(line.size() > 0 || line == "\n")
+    {
+        std::replace(line.begin(), line.end(), '\t', ' ');
+        std::replace(line.begin(), line.end(), ',', '.');
+        new_table.push_back(std::vector<T>());
+        sstream.str(line);
+        T elem;
+        while(sstream >> elem)
+        {
+            new_table.back().push_back(elem);
+        }
+        sstream.clear();
+        getline(in, line, '\n');
+        if(size == -1)
+            size = new_table.back().size();
+        else if(new_table.back().size() != size)
+            throw std::invalid_argument("Different row sizes. Data is invalid!\n");
+    }
+
+
+    new (&matrix1) Matrix<T>(new_table);
+    return in;
 }
 
 

@@ -15,7 +15,7 @@ namespace matrix{
 template<class T>
 std::ostream &operator<<(std::ostream&, const matrix::Matrix<T>&);
 template<class T>
-std::istream &operator>>(std::istream&, const matrix::Matrix<T>&);
+std::istream &operator>>(std::istream&, matrix::Matrix<T>&);
 
 namespace matrix
 {
@@ -25,23 +25,26 @@ namespace matrix
     protected:
         std::vector<std::vector<T>> table;
     public:
+        Matrix();
         Matrix(int, int);
         Matrix(int, int, int, int max = 10);
-        Matrix(std::vector<std::vector<T>> &);
-        Matrix(std::vector<T> &);
+        Matrix(const std::vector<std::vector<T>> &);
+        Matrix(const std::vector<T> &);
 
         std::pair<int, int> get_dimensions()const;
         bool check_sizes(const Matrix<T> &, const Matrix<T> &)const;
         virtual void validate();
         T Gauss(int from_up = 0, int from_left = 0);
-        T determinant();
-        T scalar(Matrix<T> &);
-        T v_norm_max();
-        T v_norm_euc();
-        double angle(Matrix &);
-        int rank();
-        Matrix<T> inverse();
+        T determinant()const;
         Matrix<T> &Transpose();
+        int rank()const;
+        Matrix<T> inverse()const;
+        T m_form_frb()const;
+        T scalar(const Matrix<T> &)const;
+        T v_norm_max()const;
+        T v_norm_euc()const;
+        //radians
+        double angle(const Matrix &)const;
 
 
         // ALERT! User can change variable and implicitly change type of matrix (without logicaly changing it) with [] operator!!!
@@ -57,8 +60,9 @@ namespace matrix
 
         template<class T2>
         friend std::ostream &::operator<<(std::ostream &, const matrix::Matrix<T2> &);
+        // Don't forget ot use double enter at the end of the input!
         template<class T2>
-        friend std::istream &::operator>>(std::istream &, const matrix::Matrix<T2> &);
+        friend std::istream &::operator>>(std::istream &, matrix::Matrix<T2> &);
     };
 
     template<class T>
