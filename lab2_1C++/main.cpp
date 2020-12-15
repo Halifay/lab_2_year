@@ -276,50 +276,53 @@ void fourth_lab_tests()
     std::cout <<"Reading data.txt" << std::endl;
 
     std::cout << "writing data.txt contents to data.bin" << std::endl;
-    std::fstream input;
-    input.open(common_path + data + "txt");
-    input >> file_input;
+    std::string input_file, text_output_file, binary_output_file;
+    input_file = common_path + data + "txt";
+    text_output_file = common_path + data + "text";
+    binary_output_file = common_path + data + "bin";
+    file_input.read_text(input_file);
     std::cout << file_input << std::endl;
-    std::ofstream output;
-    output.open(common_path + data + "bin");
-    output << file_input;
-    input.close();
-    output.close();
+    file_input.write_text(text_output_file);
+    file_input.write_binary(binary_output_file);
 
     std::cout << "writing loadings.txt contents to loadings.bin" << std::endl;
-    input.open(common_path + loadings + "txt");
-    input >> file_input;
+    input_file = common_path + loadings + "txt";
+    text_output_file = common_path + loadings + "text";
+    binary_output_file = common_path + loadings + "bin";
+    file_input.read_text(input_file);
     std::cout << file_input << std::endl;
-    output.open(common_path + loadings + "bin");
-    output << file_input;
-    input.close();
-    output.close();
+    file_input.write_text(text_output_file);
+    file_input.write_binary(binary_output_file);
 
     std::cout << "writing scores.txt contents to scores.bin" << std::endl;
-    input.open(common_path + scores + "txt");
-    input >> file_input;
+    input_file = common_path + scores + "txt";
+    text_output_file = common_path + scores + "text";
+    binary_output_file = common_path + scores + "bin";
+    file_input.read_binary(binary_output_file);
+    // file_input.read_text(input_file);
     std::cout << file_input << std::endl;
-    output.open(common_path + scores + "bin");
-    output << file_input;
-    input.close();
-    output.close();
+    file_input.write_text(text_output_file);
+    file_input.write_binary(binary_output_file);
 
     std::cout << "Check input yourself, type numbers separated by spaces in rows separated by line breaks."
                  "Don't forget to press enter twice at the end." << std::endl;
     Matrix<int> hand_input{};
     std::cin >> hand_input;
-    input.open(common_path + "/user_input.txt");
-    input << hand_input;
+    std::string user_input = common_path + "/user_input.txt";
+    hand_input.write_text(user_input);
     std::cout << "Your input is\n" << hand_input << std::endl;
     std::cout << "It saved under user_input.txt" << std::endl;
-    input.close();
 }
 
 int main() {
 
     // first_lab_tests();
-    second_and_third_lab_tests();
-    // fourth_lab_tests();
+    // second_and_third_lab_tests();
+    fourth_lab_tests();
+
+    // Matrix<double> example(3, 2, 1);
+    // std::cout << example << std::endl;
+    // std::cout << example.Transpose() << std::endl;
 
     return 0;
 }

@@ -29,6 +29,8 @@ sstream
 -
 algorithm
 -
+fstream
+-
 
 /home/mikhail/Garage/C++/lab2_1C++/matrix.h
 vector

@@ -46,6 +46,12 @@ namespace matrix
         //radians
         double angle(const Matrix &)const;
 
+        //input/output
+        bool read_binary(std::string&);
+        bool write_binary(std::string&);
+        bool read_text(std::string&);
+        bool write_text(std::string&);
+
 
         // ALERT! User can change variable and implicitly change type of matrix (without logicaly changing it) with [] operator!!!
         const std::vector<T> &operator[](int)const;

@@ -9,6 +9,8 @@
 #include <cmath>
 #include <sstream>
 #include <algorithm>
+#include <fstream>
+
 using namespace matrix;
 const double eps = 1e-6;
 const int max_length = 511;
@@ -136,15 +138,16 @@ template<class T>
 Matrix<T> &Matrix<T>::Transpose()
 {
     auto sizes = get_dimensions();
-    Matrix<T> new_matrix(sizes.second, sizes.first);
+    std::vector<std::vector<T>> new_table;
+    new_table.resize(sizes.second, std::vector<T>(sizes.first));
     for(int i = 0; i < sizes.first; i++)
     {
         for(int j = 0; j < sizes.second; j++)
         {
-            new_matrix[j][i] = table[i][j];
+            new_table[j][i] = table[i][j];
         }
     }
-    *this = new_matrix;
+    table = new_table;
     return *this;
 }
 
@@ -192,7 +195,6 @@ Matrix<T> Matrix<T>::inverse() const
         }
     }
     inverted.Gauss();
-    // std::cout << inverted << std::endl;
     for(int i = 0; i < sizes.first; i++)
     {
         for(int j = i-1; j >= 0; j--)
@@ -271,6 +273,84 @@ T Matrix<T>::m_form_frb() const
         for(T value : line)
             result += value * value;
     return std::sqrt(result);
+}
+
+
+//input/output
+
+template<class T>
+bool Matrix<T>::read_text(std::string &filename)
+{
+    std::fstream input;
+    input.open(filename);
+    if(!input.is_open())
+        return false;
+    input >> *this;
+    input.close();
+    return true;
+}
+
+template<class T>
+bool Matrix<T>::write_text(std::string &filename)
+{
+    std::ofstream output;
+    output.open(filename);
+    //check if this is ok
+    if(!output.is_open())
+        return false;
+    output << *this;
+    output.close();
+    return true;
+}
+
+template<class T>
+bool Matrix<T>::read_binary(std::string &filename)
+{
+    std::fstream input;
+    input.open(filename);
+    if(!input.is_open())
+        return false;
+    // std::vector<std::vector<T>> table;
+    int height, width;
+
+    input.read(reinterpret_cast<char *>(&height), sizeof(int));
+    input.read(reinterpret_cast<char *>(&width), sizeof(int));
+
+    table.resize(height, std::vector<T>(width));
+
+    for(int i = 0; i < height; i++)
+    {
+        // std::cout << '\n';
+        for(int j = 0; j < width; j++)
+        {
+            input.read(reinterpret_cast<char *>( &(table[i][j]) ), sizeof(T));
+            // std::cout << table[i][j] << ' ';
+        }
+    }
+
+    return true;
+}
+
+template<class T>
+bool Matrix<T>::write_binary(std::string &filename)
+{
+    std::ofstream output;
+    output.open(filename, std::ios::binary);
+    if(!output.is_open())
+        return false;
+
+    auto sizes = get_dimensions();
+    output.write(reinterpret_cast<const char *>( &(sizes.first) ), sizeof(int));
+    output.write(reinterpret_cast<const char *>( &(sizes.second) ), sizeof(int));
+    for(auto line : table)
+    {
+        for(T element : line)
+        {
+            output.write(reinterpret_cast<const char *>( &element ), sizeof(T));
+        }
+    }
+    output.close();
+    return true;
 }
 
 template<class T>
@@ -374,7 +454,9 @@ std::ostream &operator <<(std::ostream &out, const Matrix<T> &matrix1)
     for(auto line : matrix1.table)
     {
         for (auto element : line)
+        {
             out << element << '\t';
+        }
         out << '\n';
     }
 
