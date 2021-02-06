@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -g   CMakeFiles/21_01_30.dir/main.cpp.o  -o 21_01_30 

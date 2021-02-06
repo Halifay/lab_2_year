@@ -1,0 +1,3 @@
+/home/mikhail/Garage/C++/16_01_21/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mikhail/Garage/C++/16_01_21/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mikhail/Garage/C++/16_01_21/cmake-build-debug/CMakeFiles/16_01_21.dir

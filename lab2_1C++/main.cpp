@@ -298,8 +298,8 @@ void fourth_lab_tests()
     input_file = common_path + scores + "txt";
     text_output_file = common_path + scores + "text";
     binary_output_file = common_path + scores + "bin";
-    file_input.read_binary(binary_output_file);
-    // file_input.read_text(input_file);
+    // file_input.read_binary(binary_output_file);
+    file_input.read_text(input_file);
     std::cout << file_input << std::endl;
     file_input.write_text(text_output_file);
     file_input.write_binary(binary_output_file);
@@ -314,15 +314,19 @@ void fourth_lab_tests()
     std::cout << "It saved under user_input.txt" << std::endl;
 }
 
+
 int main() {
 
     // first_lab_tests();
     // second_and_third_lab_tests();
-    fourth_lab_tests();
-
+    // fourth_lab_tests();
     // Matrix<double> example(3, 2, 1);
     // std::cout << example << std::endl;
     // std::cout << example.Transpose() << std::endl;
+
+
+
+
 
     return 0;
 }
