@@ -84,17 +84,17 @@ CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.s: cmake_force
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/C++/lab_21_02_07_PCA/matrix.cpp -o CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.s
 
 CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o: CMakeFiles/lab_21_02_07_PCA.dir/flags.make
-CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o: PCA.cpp
+CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o: ../PCA.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o -c /home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/PCA.cpp
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o -c /home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.cpp
 
 CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/PCA.cpp > CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.cpp > CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.i
 
 CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/PCA.cpp -o CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.cpp -o CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.s
 
 # Object files for target lab_21_02_07_PCA
 lab_21_02_07_PCA_OBJECTS = \
