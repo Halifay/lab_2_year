@@ -26,8 +26,8 @@ namespace matrix
         std::vector<std::vector<T>> table;
     public:
         Matrix();
-        Matrix(int, int);
-        Matrix(int, int, int, int max = 10);
+        Matrix(int, int, int value = 0);
+        // Matrix(int, int, int, int max = 10);
         Matrix(const std::vector<std::vector<T>> &);
         Matrix(const std::vector<T> &);
 
@@ -36,14 +36,14 @@ namespace matrix
         virtual void validate();
         T Gauss(int from_up = 0, int from_left = 0);
         T determinant()const;
-        Matrix<T> &Transpose();
+        Matrix<T> Transpose();
         int rank()const;
         Matrix<T> inverse()const;
         T m_form_frb()const;
         T scalar(const Matrix<T> &)const;
         T v_norm_max()const;
         T v_norm_euc()const;
-        //radians
+        T sum()const;
         double angle(const Matrix &)const;
 
         //input/output
@@ -60,6 +60,7 @@ namespace matrix
         Matrix<T> operator-(const Matrix<T> &)const;
         Matrix<T> operator*(const Matrix<T> &)const;
         Matrix<T> operator*(T)const;
+        Matrix<T> operator/(T)const;
         Matrix<T> hadamard(const Matrix<T> &)const;
         Matrix<T> &operator=(const Matrix<T> &);
 

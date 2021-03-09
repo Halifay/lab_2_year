@@ -20,8 +20,8 @@ template<class T>
 Matrix<T>::Matrix(){}
 
 template<class T>
-Matrix<T>::Matrix(int height, int length):
-table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)0)))
+Matrix<T>::Matrix(int height, int length, int value):
+table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)value)))
 {
     static_assert(std::is_arithmetic<T>::value, "The matrix has to be of arithmetic type!");
     if(length*height <= 0 or height < 0)
@@ -135,7 +135,7 @@ T Matrix<T>::determinant()const
 }
 
 template<class T>
-Matrix<T> &Matrix<T>::Transpose()
+Matrix<T> Matrix<T>::Transpose()
 {
     auto sizes = get_dimensions();
     std::vector<std::vector<T>> new_table;
@@ -147,8 +147,8 @@ Matrix<T> &Matrix<T>::Transpose()
             new_table[j][i] = table[i][j];
         }
     }
-    table = new_table;
-    return *this;
+    Matrix<T> transposed_matrix(new_table);
+    return transposed_matrix;
 }
 
 template<class T>
@@ -254,6 +254,21 @@ T Matrix<T>::v_norm_max() const
     for(T coordinate : table[0])
     {
         result = std::max(result, coordinate);
+    }
+    return result;
+}
+
+template<class T>
+T Matrix<T>::sum() const
+{
+    T result = 0;
+    auto sizes = get_dimensions();
+    for(int i = 0; i < sizes.first; i++)
+    {
+        for(int j = 0; j < sizes.second; j++)
+        {
+            result += table[i][j];
+        }
     }
     return result;
 }
@@ -400,6 +415,12 @@ Matrix<T> Matrix<T>::operator *(T second)const
         for(int j = 0; j < sizes.first; j++)
             new_matrix[i][j] = table[i][j] * second;
     return new_matrix;
+}
+
+template<class T>
+Matrix<T> Matrix<T>::operator /(T second)const
+{
+    return this->*(1/second);
 }
 
 template<class T>

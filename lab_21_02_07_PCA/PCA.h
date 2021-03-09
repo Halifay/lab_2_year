@@ -16,7 +16,7 @@ namespace pca {
 
         void scaling(Matrix<double> &);
 
-        void NIPALS(Matrix<double> &, Matrix<double>&, Matrix<double> &, Matrix<double> &);
+        void NIPALS(Matrix<double> &, Matrix<double> &, Matrix<double> &);
 
 
     };
