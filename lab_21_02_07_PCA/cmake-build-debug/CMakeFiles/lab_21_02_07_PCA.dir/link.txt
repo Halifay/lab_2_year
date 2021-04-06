@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/lab_21_02_07_PCA.dir/main.cpp.o CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.o CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o  -o lab_21_02_07_PCA 
+/usr/bin/c++  -g   CMakeFiles/lab_21_02_07_PCA.dir/main.cpp.o  -o lab_21_02_07_PCA 

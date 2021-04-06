@@ -3,4 +3,4 @@ project(lab_21_02_07_PCA)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(lab_21_02_07_PCA main.cpp matrix.cpp matrix.h PCA.cpp PCA.h)
+add_executable(lab_21_02_07_PCA main.cpp) # matrix.cpp matrix.h PCA.h PCA.cpp)

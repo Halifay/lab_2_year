@@ -1,7 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o"
   "CMakeFiles/lab_21_02_07_PCA.dir/main.cpp.o"
-  "CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.o"
   "lab_21_02_07_PCA"
   "lab_21_02_07_PCA.pdb"
 )

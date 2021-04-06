@@ -5,18 +5,28 @@
 #ifndef LAB_21_02_07_PCA_PCA_H
 #define LAB_21_02_07_PCA_PCA_H
 #include "matrix.cpp"
+typedef long double desired_type;
 
+
+namespace pca {
+    class PCA;
+}
 
 namespace pca {
 
     class PCA {
-        const double eps = 1e-8;
+        const desired_type eps = 1e-8;
+        Matrix<desired_type> D;
 
-        void center(Matrix<double> &);
+    public:
+        PCA();
+        PCA(Matrix<desired_type> &);
 
-        void scaling(Matrix<double> &);
+        void center(Matrix<desired_type> &);
 
-        void NIPALS(Matrix<double> &, Matrix<double> &, Matrix<double> &);
+        void autoscaling(Matrix<desired_type> &);
+
+        void nipals(Matrix<desired_type> &, Matrix<desired_type> &, Matrix<desired_type> &, Matrix<desired_type> &);
 
 
     };

@@ -26,14 +26,17 @@ namespace matrix
         std::vector<std::vector<T>> table;
     public:
         Matrix();
+        // rectangle filled with one value
         Matrix(int, int, int value = 0);
+        // with rseed
         // Matrix(int, int, int, int max = 10);
         Matrix(const std::vector<std::vector<T>> &);
         Matrix(const std::vector<T> &);
+        Matrix(const Matrix<T> &);
 
         std::pair<int, int> get_dimensions()const;
         bool check_sizes(const Matrix<T> &, const Matrix<T> &)const;
-        virtual void validate();
+        // virtual void validate();
         T Gauss(int from_up = 0, int from_left = 0);
         T determinant()const;
         Matrix<T> Transpose();
@@ -45,6 +48,8 @@ namespace matrix
         T v_norm_euc()const;
         T sum()const;
         double angle(const Matrix &)const;
+        T norm()const;
+        void print_sizes();
 
         //input/output
         bool read_binary(std::string&);
@@ -77,7 +82,7 @@ namespace matrix
     {
     public:
         IdentityMatrix(int);
-        void validate()override;
+        // void validate()override;
     };
 
     template<class T>
@@ -86,7 +91,7 @@ namespace matrix
     public:
         DiagonalMatrix(int, T);
         DiagonalMatrix(std::vector<T>);
-        void validate()override;
+        // void validate()override;
     };
 
     template<class T>
@@ -95,7 +100,7 @@ namespace matrix
     public:
         UpperTriangleMatrix(int, T);
         UpperTriangleMatrix(std::vector<std::vector<T>>);
-        void validate()override;
+        // void validate()override;
     };
 
     template<class T>
@@ -104,7 +109,7 @@ namespace matrix
     public:
         LowerTriangleMatrix(int, T);
         LowerTriangleMatrix(std::vector<std::vector<T>>);
-        void validate()override;
+        // void validate()override;
     };
 
     template<class T>
@@ -113,7 +118,7 @@ namespace matrix
     public:
         SymmetricMatrix(int, T);
         SymmetricMatrix(std::vector<std::vector<T>>, bool upper=true);
-        void validate()override;
+        // void validate()override;
 
     };
 }

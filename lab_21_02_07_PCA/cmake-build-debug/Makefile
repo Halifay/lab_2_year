@@ -123,33 +123,6 @@ lab_21_02_07_PCA/fast:
 	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/build
 .PHONY : lab_21_02_07_PCA/fast
 
-PCA.o: PCA.cpp.o
-
-.PHONY : PCA.o
-
-# target to build an object file
-PCA.cpp.o:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o
-.PHONY : PCA.cpp.o
-
-PCA.i: PCA.cpp.i
-
-.PHONY : PCA.i
-
-# target to preprocess a source file
-PCA.cpp.i:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.i
-.PHONY : PCA.cpp.i
-
-PCA.s: PCA.cpp.s
-
-.PHONY : PCA.s
-
-# target to generate assembly for a file
-PCA.cpp.s:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.s
-.PHONY : PCA.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -177,33 +150,6 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-matrix.o: matrix.cpp.o
-
-.PHONY : matrix.o
-
-# target to build an object file
-matrix.cpp.o:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.o
-.PHONY : matrix.cpp.o
-
-matrix.i: matrix.cpp.i
-
-.PHONY : matrix.i
-
-# target to preprocess a source file
-matrix.cpp.i:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.i
-.PHONY : matrix.cpp.i
-
-matrix.s: matrix.cpp.s
-
-.PHONY : matrix.s
-
-# target to generate assembly for a file
-matrix.cpp.s:
-	$(MAKE) -f CMakeFiles/lab_21_02_07_PCA.dir/build.make CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.s
-.PHONY : matrix.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,15 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... lab_21_02_07_PCA"
-	@echo "... PCA.o"
-	@echo "... PCA.i"
-	@echo "... PCA.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... matrix.o"
-	@echo "... matrix.i"
-	@echo "... matrix.s"
 .PHONY : help
 
 

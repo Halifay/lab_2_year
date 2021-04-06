@@ -10,6 +10,7 @@
 #include <sstream>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 using namespace matrix;
 const double eps = 1e-6;
@@ -28,14 +29,14 @@ table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)value)))
         throw std::invalid_argument("Matrix length or height must be bigger than 0.");
 }
 
-template<class T>
-Matrix<T>::Matrix(int height, int length, int rseed, int max):Matrix(height, length)
-{
-    std::srand(rseed);
-    for(int i = 0; i < height; i++)
-        for(int j = 0; j < length; j++)
-            table[i][j] = (T)(std::rand()%max);
-}
+// template<class T>
+// Matrix<T>::Matrix(int height, int length, int rseed, int max):Matrix(height, length)
+// {
+//     std::srand(rseed);
+//     for(int i = 0; i < height; i++)
+//         for(int j = 0; j < length; j++)
+//             table[i][j] = (T)(std::rand()%max);
+// }
 
 template<class T>
 Matrix<T>::Matrix(const std::vector<std::vector<T>> &input_vector):
@@ -57,6 +58,20 @@ Matrix(input_vector.size(), input_vector[0].size())
 template<class T>
 Matrix<T>::Matrix(const std::vector<T> &values):Matrix(std::vector<std::vector<T>>(1, values)) {}
 
+template<class T>
+Matrix<T>::Matrix(const Matrix<T> &clone):
+        Matrix(clone.get_dimensions().first, clone.get_dimensions().second)
+{
+    auto sizes = clone.get_dimensions();
+    for(int i = 0; i < sizes.first; i++)
+    {
+        for(int j = 0; j < sizes.second; j++)
+        {
+            table[i][j] = clone[i][j];
+        }
+    }
+}
+
 // first is height, second is length
 template<class T>
 std::pair<int, int> Matrix<T>::get_dimensions()const
@@ -73,11 +88,11 @@ bool Matrix<T>::check_sizes(const Matrix<T> &first, const Matrix<T> &second)cons
     return first.get_dimensions() == second.get_dimensions();
 }
 
-template<class T>
-void Matrix<T>::validate()
-{
-    return;
-}
+// template<class T>
+// void Matrix<T>::validate()
+// {
+//     return;
+// }
 
 template<class T>
 T Matrix<T>::Gauss(int from_up, int from_left)
@@ -281,6 +296,25 @@ double Matrix<T>::angle(const Matrix<T> &second) const
 }
 
 template<class T>
+T Matrix<T>::norm() const
+{
+    T result = 0;
+    for(int i = 0; i < get_dimensions().first && i < 1; i++)
+    {
+        for(int j = 0; j < get_dimensions().second; j++)
+            result += table[i][j]*table[i][j];
+    }
+    return sqrt(result);
+}
+
+template<class T>
+void Matrix<T>::print_sizes()
+{
+    auto sizes = get_dimensions();
+    std::cout << "height: " << sizes.first << "\nwidth: " << sizes.second << std::endl;
+}
+
+template<class T>
 T Matrix<T>::m_form_frb() const
 {
     T result = 0;
@@ -335,11 +369,9 @@ bool Matrix<T>::read_binary(std::string &filename)
 
     for(int i = 0; i < height; i++)
     {
-        // std::cout << '\n';
         for(int j = 0; j < width; j++)
         {
             input.read(reinterpret_cast<char *>(&(table[i][j])), sizeof(T));
-            // std::cout << table[i][j] << ' ';
         }
     }
 
@@ -387,8 +419,8 @@ Matrix<T> Matrix<T>::operator +(const Matrix<T> &second)const
         throw std::invalid_argument("Matrices have different dimensions!");
     auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
-    for(int i = 0; i < sizes.second; i++)
-        for(int j = 0; j < sizes.first; j++)
+    for(int i = 0; i < sizes.first; i++)
+        for(int j = 0; j < sizes.second; j++)
             new_matrix[i][j] = table[i][j] + second[i][j];
     return new_matrix;
 }
@@ -400,8 +432,8 @@ Matrix<T> Matrix<T>::operator -(const Matrix<T> &second)const
         throw std::invalid_argument("Matrices have different dimensions!");
     auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
-    for(int i = 0; i < sizes.second; i++)
-        for(int j = 0; j < sizes.first; j++)
+    for(int i = 0; i < sizes.first; i++)
+        for(int j = 0; j < sizes.second; j++)
             new_matrix[i][j] = table[i][j] - second[i][j];
     return new_matrix;
 }
@@ -411,8 +443,8 @@ Matrix<T> Matrix<T>::operator *(T second)const
 {
     auto sizes = get_dimensions();
     Matrix<T> new_matrix(sizes.first, sizes.second);
-    for(int i = 0; i < sizes.second; i++)
-        for(int j = 0; j < sizes.first; j++)
+    for(int i = 0; i < sizes.first; i++)
+        for(int j = 0; j < sizes.second; j++)
             new_matrix[i][j] = table[i][j] * second;
     return new_matrix;
 }
@@ -420,7 +452,8 @@ Matrix<T> Matrix<T>::operator *(T second)const
 template<class T>
 Matrix<T> Matrix<T>::operator /(T second)const
 {
-    return this->*(1/second);
+    Matrix<T> result = (*this)*(T(1)/second);
+    return result;
 }
 
 template<class T>
@@ -458,14 +491,13 @@ Matrix<T> Matrix<T>::hadamard(const Matrix<T> &second)const
 }
 
 template<class T>
-Matrix<T> &Matrix<T>::operator =(const Matrix<T> &second)
+Matrix<T> & Matrix<T>::operator =(const Matrix<T> &second)
 {
     auto dims = second.get_dimensions();
-    Matrix(dims.first, dims.second);
+    table = std::vector<std::vector<T>>(dims.first, std::vector<T>(dims.second));
     for(int i = 0; i < dims.first; i ++)
         for(int j = 0; j < dims.second; j++)
             table[i][j] = second[i][j];
-    validate();
     return *this;
 }
 
@@ -476,7 +508,7 @@ std::ostream &operator <<(std::ostream &out, const Matrix<T> &matrix1)
     {
         for (auto element : line)
         {
-            out << element << '\t';
+            out << std::right << std::setw(10) << element << '\t';
         }
         out << '\n';
     }
@@ -525,8 +557,8 @@ IdentityMatrix<T>::IdentityMatrix(int side):Matrix<T>(side, side)
         (*this).table[i][i] = (T)1;
 }
 
-template<class T>
-void IdentityMatrix<T>::validate() {}
+// template<class T>
+// void IdentityMatrix<T>::validate() {}
 
 // code for DiagonalMatrix class ---------------------------------------------------------------------------------------
 template<class T>
@@ -543,8 +575,8 @@ DiagonalMatrix<T>::DiagonalMatrix(std::vector<T> values):Matrix<T>(values.size()
         this->table[i][i] = values[i];
 }
 
-template<class T>
-void DiagonalMatrix<T>::validate() {}//TODO validation functions
+// template<class T>
+// void DiagonalMatrix<T>::validate() {}//TODO validation functions
 
 // code for UpperTriangleMatrix class ----------------------------------------------------------------------------------
 template<class T>
@@ -565,8 +597,8 @@ UpperTriangleMatrix<T>::UpperTriangleMatrix(int side, T value):Matrix<T>(side, s
             this->table[i][j] = value;
 }
 
-template<class T>
-void UpperTriangleMatrix<T>::validate() {}//TODO validate function
+// template<class T>
+// void UpperTriangleMatrix<T>::validate() {}//TODO validate function
 
 // code for LowerTriangleMatrix class ---------------------------------------------------------------------------------------
 template<class T>
@@ -587,8 +619,8 @@ LowerTriangleMatrix<T>::LowerTriangleMatrix(int side, T value):Matrix<T>(side, s
             this->table[i][j] = value;
 }
 
-template<class T>
-void LowerTriangleMatrix<T>::validate() {}//TODO validate function
+// template<class T>
+// void LowerTriangleMatrix<T>::validate() {}//TODO validate function
 
 // code for SymmetricMatrix class ---------------------------------------------------------------------------------------
 template<class T>
@@ -613,5 +645,5 @@ SymmetricMatrix<T>::SymmetricMatrix(int side, T value):Matrix<T>(side, side)
             this->table[i][j] = value;
 }
 
-template<class T>
-void SymmetricMatrix<T>::validate() {}
+// template<class T>
+// void SymmetricMatrix<T>::validate() {}

@@ -4,9 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.cpp" "/home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/CMakeFiles/lab_21_02_07_PCA.dir/PCA.cpp.o"
   "/home/mikhail/Garage/C++/lab_21_02_07_PCA/main.cpp" "/home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/CMakeFiles/lab_21_02_07_PCA.dir/main.cpp.o"
-  "/home/mikhail/Garage/C++/lab_21_02_07_PCA/matrix.cpp" "/home/mikhail/Garage/C++/lab_21_02_07_PCA/cmake-build-debug/CMakeFiles/lab_21_02_07_PCA.dir/matrix.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

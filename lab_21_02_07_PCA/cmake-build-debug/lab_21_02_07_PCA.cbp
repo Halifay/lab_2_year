@@ -84,19 +84,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.cpp">
-			<Option target="lab_21_02_07_PCA"/>
-		</Unit>
-		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/PCA.h">
-			<Option target="lab_21_02_07_PCA"/>
-		</Unit>
 		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/main.cpp">
-			<Option target="lab_21_02_07_PCA"/>
-		</Unit>
-		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/matrix.cpp">
-			<Option target="lab_21_02_07_PCA"/>
-		</Unit>
-		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/matrix.h">
 			<Option target="lab_21_02_07_PCA"/>
 		</Unit>
 		<Unit filename="/home/mikhail/Garage/C++/lab_21_02_07_PCA/CMakeLists.txt">
