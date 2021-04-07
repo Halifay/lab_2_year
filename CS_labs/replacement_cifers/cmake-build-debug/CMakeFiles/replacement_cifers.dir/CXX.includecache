@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mikhail/Garage/CS_labs/replacement_cifers/main.cpp
+iostream
+-
+string
+-
+map
+-
+algorithm
+-
+vector
+-
+set
+-
+functional
+-
+
