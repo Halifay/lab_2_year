@@ -192,10 +192,10 @@ template<class T>
 Matrix<T> Matrix<T>::inverse() const
 {
     auto sizes = get_dimensions();
-    if(abs(determinant()) < eps)
-    {
-        return Matrix<T>(sizes.first, sizes.second);
-    }
+    // if(abs(determinant()) < eps)
+    // {
+    //     return Matrix<T>(sizes.first, sizes.second);
+    // }
     Matrix<T> inverted(table);
 
     for(int i = 0; i < sizes.first; i++)
@@ -210,6 +210,7 @@ Matrix<T> Matrix<T>::inverse() const
         }
     }
     inverted.Gauss();
+
     for(int i = 0; i < sizes.first; i++)
     {
         for(int j = i-1; j >= 0; j--)
@@ -299,7 +300,7 @@ template<class T>
 T Matrix<T>::norm() const
 {
     T result = 0;
-    for(int i = 0; i < get_dimensions().first && i < 1; i++)
+    for(int i = 0; i < get_dimensions().first; i++)
     {
         for(int j = 0; j < get_dimensions().second; j++)
             result += table[i][j]*table[i][j];
@@ -645,5 +646,27 @@ SymmetricMatrix<T>::SymmetricMatrix(int side, T value):Matrix<T>(side, side)
             this->table[i][j] = value;
 }
 
+// template<class T>
+// std::pair<std::vector<T>*, int> Matrix<T>::begin()const
+// {
+//     return {&(this->table[0]), 0};
+// }
+//
+// template<class T>
+// std::pair<std::vector<T>*, int> Matrix<T>::end()const
+// {
+//     return std::pair<std::vector<T>*, int>(&std::vector<T>(0), get_dimensions().first);
+// }
+//
+// template<class T>
+// pair<std::vector<T>*, int> Matrix<T>::operator++(std::pair<std::vector<T>*, int> iter)
+// {
+//     iter.second++;
+//     if(get_dimensions().first > iter.second)
+//         iter.second = this->table[iter.second];
+//     else
+//         return end();
+//     return iter;
+// }
 // template<class T>
 // void SymmetricMatrix<T>::validate() {}

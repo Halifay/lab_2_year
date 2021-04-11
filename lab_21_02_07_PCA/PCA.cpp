@@ -15,8 +15,8 @@ PCA::PCA(Matrix<desired_type> &D):PCA()
     this->D = D;
     std::cout << "after D" << std::endl;
     std::cout << this->D << std::endl;
-    // std::cout << "center" << std::endl;
-    // center(this->D);
+    std::cout << "center" << std::endl;
+    center(this->D);
     std::cout << this->D << std::endl;
     std::cout << "autoscaling" << std::endl;
     autoscaling(this->D);
@@ -59,18 +59,18 @@ void PCA::autoscaling(Matrix<desired_type>& D)
     }
 }
 
-void PCA::nipals(Matrix<desired_type>& D, Matrix<desired_type>& E, Matrix<desired_type>& T, Matrix<desired_type>& P)
+void PCA::nipals(Matrix<desired_type>& Dn, Matrix<desired_type>& E, Matrix<desired_type>& T, Matrix<desired_type>& P)
 {
     // if(t_column < 0 || t_column > D.get_dimensions().first)
     //     throw std::length_error("t_column must not be less than 0 and not bigger than number of rows in given matrix");
-    E = Matrix<desired_type>(D);
+    E = Matrix<desired_type>(Dn);
     std::vector<std::vector<desired_type>> t_vec, p_vec;
     for(int i = 0; i < E.get_dimensions().second; i++) {
         Matrix<desired_type> local_T = Matrix<desired_type>(E.Transpose()[i]).Transpose(); //T is a column with a height of matrix E height
         Matrix<desired_type> local_P;
         Matrix<desired_type> old_T;
         do {
-            local_P = (local_T.Transpose() * E) / ((local_T.Transpose() * local_T).sum());
+            local_P = (local_T.Transpose() * E); // / (local_T.norm()); // ((local_T.Transpose() * local_T).sum());
             local_P = local_P.Transpose();
             local_P = local_P / (local_P.norm());
             old_T = local_T;
@@ -86,5 +86,43 @@ void PCA::nipals(Matrix<desired_type>& D, Matrix<desired_type>& E, Matrix<desire
     P = Matrix<desired_type>(p_vec).Transpose();
     std::cout << "scores \n" << T << std::endl;
     std::cout << "loadings \n" << P << std::endl;
+    std::cout << "E \n" << E << std::endl;
+
+    std::vector<desired_type> H;
+    for(int i = 0; i < T.get_dimensions().first; i++)
+    {
+        Matrix<desired_type> t(T[i]);
+        auto square = T.Transpose() * T;
+        square = square.inverse();
+        square = t * square;
+        H.push_back((square * t.Transpose()).sum());
+    }
+    std::cout << "leverages \n" << Matrix<desired_type>(H) << std::endl;
+
+    std::vector<desired_type> u;
+    for(int i = 0; i < E.get_dimensions().first; i++)
+    {
+        u.push_back(0);
+        for(int j = 0; j < E.get_dimensions().second; j++)
+        {
+            u[i] += E[i][j] * E[i][j];
+        }
+        u[i] = sqrt(u[i]);
+    }
+    Matrix<desired_type> U(u);
+    std::cout << "deviation \n" << U << std::endl;
+    desired_type trv, erv;
+    trv = U.sum()/E.get_dimensions().first/E.get_dimensions().second;
+    std::cout << "TRV \n" << trv << std::endl;
+    desired_type x_auto_squared = 0;
+    for(int i = 0; i < D.get_dimensions().first; i++)
+    {
+        for(int j = 0; j < D.get_dimensions().second; j++)
+        {
+            x_auto_squared += D[i][j] * D[i][j];
+        }
+    }
+    erv = 1 - trv * D.get_dimensions().first / x_auto_squared;
+    std::cout << "ERV \n" << erv << std::endl;
     // std::cout << "iter: " << iter << std::endl;
 }

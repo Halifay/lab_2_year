@@ -34,6 +34,10 @@ namespace matrix
         Matrix(const std::vector<T> &);
         Matrix(const Matrix<T> &);
 
+        // std::pair<std::vector<T>*, int> begin()const;
+        // std::pair<std::vector<T>*, int> end()const;
+        // std::pair<std::vector<T>*, int> operator++(std::pair<std::vector<T>*, int>);
+
         std::pair<int, int> get_dimensions()const;
         bool check_sizes(const Matrix<T> &, const Matrix<T> &)const;
         // virtual void validate();

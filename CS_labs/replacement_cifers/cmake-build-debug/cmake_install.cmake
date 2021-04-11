@@ -1,4 +1,4 @@
-# Install script for directory: /home/mikhail/Garage/CS_labs/replacement_cifers
+# Install script for directory: /home/mikhail/Garage/C++/CS_labs/replacement_cifers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mikhail/Garage/CS_labs/replacement_cifers/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mikhail/Garage/C++/CS_labs/replacement_cifers/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

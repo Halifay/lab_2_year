@@ -1,3 +1,3 @@
-/home/mikhail/Garage/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/mikhail/Garage/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/mikhail/Garage/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/replacement_cifers.dir
+/home/mikhail/Garage/C++/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mikhail/Garage/C++/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mikhail/Garage/C++/CS_labs/replacement_cifers/cmake-build-debug/CMakeFiles/replacement_cifers.dir
