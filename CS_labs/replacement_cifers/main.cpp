@@ -265,7 +265,7 @@ int main() {
     cout << "\ndecoded text\n" << de_athens(cipher, 3, 2) << endl;
     // cout << de_rec_athens(cipher, 5, 3, 7, 5) << endl;
     cout << "\ncracker for simple substitution cipher gives:" << endl;
-    substitution_cracker(cipher, bigtext);
+    substitution_cracker(ciaher, bigtext);
     cout << "\ncracker for shift cipher gives:" << endl;
     athens_cracker(cipher);
     return 0;
