@@ -5,7 +5,7 @@
 
 int main() {
     std::string common_path = "/home/mikhail/Garage/C++/lab_21_02_07_PCA";
-    Matrix<long double> input;
+    Matrix<desired_type> input;
     std::string path_to_data = common_path + "/data.txt";
     // std::string path_to_data = common_path +"/write.txt";
     input.read_text(path_to_data);

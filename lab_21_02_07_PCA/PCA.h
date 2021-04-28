@@ -15,7 +15,7 @@ namespace pca {
 namespace pca {
 
     class PCA {
-        const desired_type eps = 1e-8;
+        const desired_type eps = 1e-9;
         Matrix<desired_type> D;
 
     public:

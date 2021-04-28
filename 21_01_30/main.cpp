@@ -7,7 +7,7 @@
 
 std::once_flag cleaned;
 std::timed_mutex tmutex;
-const int response_time 0;
+const int response_time = 1000;
 
 void check_student(std::string name)
 {
