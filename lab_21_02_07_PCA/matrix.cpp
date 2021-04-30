@@ -29,14 +29,14 @@ table(std::vector<std::vector<T>>(height, std::vector<T>(length, (T)value)))
         throw std::invalid_argument("Matrix length or height must be bigger than 0.");
 }
 
-// template<class T>
-// Matrix<T>::Matrix(int height, int length, int rseed, int max):Matrix(height, length)
-// {
-//     std::srand(rseed);
-//     for(int i = 0; i < height; i++)
-//         for(int j = 0; j < length; j++)
-//             table[i][j] = (T)(std::rand()%max);
-// }
+template<class T>
+Matrix<T>::Matrix(int height, int length, int max, int rseed):Matrix(height, length)
+{
+    std::srand(rseed);
+    for(int i = 0; i < height; i++)
+        for(int j = 0; j < length; j++)
+            table[i][j] = (T)(std::rand()%max);
+}
 
 template<class T>
 Matrix<T>::Matrix(const std::vector<std::vector<T>> &input_vector):
@@ -230,6 +230,12 @@ Matrix<T> Matrix<T>::inverse() const
     }
 
     return Matrix<T>(result);
+}
+
+template<class T>
+Matrix<T> Matrix<T>::inverse_modulo(int modulo) const
+{
+    T det = determinant();
 }
 
 template<class T>
@@ -451,6 +457,16 @@ Matrix<T> Matrix<T>::operator *(T second)const
 }
 
 template<class T>
+Matrix<T> &Matrix<T>::operator *=(T second)
+{
+    auto sizes = get_dimensions();
+    for(int i = 0; i < sizes.first; i++)
+        for(int j = 0; j < sizes.second; j++)
+            table[i][j] *= second;
+    return *this;
+}
+
+template<class T>
 Matrix<T> Matrix<T>::operator /(T second)const
 {
     Matrix<T> result = (*this)*(T(1)/second);
@@ -470,6 +486,13 @@ Matrix<T> Matrix<T>::operator *(const Matrix<T> &second)const
             for(int k = 0; k < fdim.second; k++)
                 new_matrix[i][j] += (*this)[i][k] * second[k][j];
     return new_matrix;
+}
+
+template<class T>
+Matrix<T> & Matrix<T>::operator *=(const Matrix<T> &second)
+{
+    table = ((*this) * second).table;
+    return *this;
 }
 
 template<class T>

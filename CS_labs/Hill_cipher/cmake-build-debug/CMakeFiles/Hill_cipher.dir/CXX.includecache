@@ -9,6 +9,12 @@
 /home/mikhail/Garage/C++/CS_labs/Hill_cipher/main.cpp
 iostream
 -
+unistd.h
+-
+stdlib.h
+-
+zconf.h
+-
 matrix.cpp
 /home/mikhail/Garage/C++/CS_labs/Hill_cipher/matrix.cpp
 

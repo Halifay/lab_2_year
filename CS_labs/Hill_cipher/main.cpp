@@ -1,9 +1,12 @@
 #include <iostream>
+#include <unistd.h>
+#include <stdlib.h>
+#include <zconf.h>
 #include "matrix.cpp"
 
 bool is_not_letter(char c)
 {
-    return (c < 'a' || c > 'z');
+    return (c < 'a' || c > 'z'+3);
 }
 
 std::string &lowercase(std::string &input)
@@ -69,11 +72,13 @@ Matrix<int> get_matrix(int modulo)
 {
     for(int i = 0; i < 100; i++)
     {
-        Matrix<int> first(2, 2, modulo, i);
+        // Matrix<int> first(2, 2, modulo, i);
+        Matrix<int> first(2, 2, modulo, std::time(NULL) + i);
+        // std::cout << std::time(NULL) << " \n";
         int det = get_det(first);
-        if (det%13 * det%2 == 0)
+        if (det%13 * det%2 * det%modulo == 0)
             continue;
-        std::cout << i << "'th try" << std::endl;
+        std::cout << i+1 << "'th try" << std::endl;
         return first;
     }
     std::cout << "No eligible matrix found!" << std::endl;
@@ -130,23 +135,124 @@ std::string hill_cipher_decoder(std::string cipher, Matrix<int> key, int modulo)
     return cipher;
 }
 
-std::string hill_recurrent_cipher(std::string text, Matrix<int> key1, Matrix<int> key2, int modulo)
+std::string hill_recurrent_cipher(std::string text, Matrix<int> key1, Matrix<int> key2, int modulo, bool decode=false)
 {
-
+    int block_size = key1.get_dimensions().second;
+    auto character_line = get_character_line(text, block_size);
+    for(int i = 0; i < character_line.size()/block_size; i++)
+    {
+        std::vector<int> word(block_size, 0);
+        for(int j = 0; j < block_size; j++)
+            word[j] = character_line[i*block_size + j].first;
+        Matrix<int> encoded(word);
+        encoded *= key1;
+        // for(int letter : encoded[0])
+        //     letter = positive_modulo(letter, modulo);
+        for(int j = 0; j < block_size; j++)
+            character_line[i*block_size + j].first = positive_modulo(encoded[0][j], modulo);
+        if(i == 0)
+            std::swap(key1, key2);
+        else
+        {
+            if(!decode)
+                key2 *= key1;
+            else
+                key2 = key1*key2;
+            std::swap(key1, key2);
+        }
+    }
+    for(auto letter : character_line)
+    {
+        if(letter.second > -1)
+            text[letter.second] = letter.first + 'a';
+        else
+            text.push_back(letter.first + 'a');
+    }
+    return text;
 }
 
 std::string hill_recurrent_cipher_decoder(std::string cipher, Matrix<int> key1, Matrix<int> key2, int modulo)
 {
+    Matrix<int> inversed1 = inverse_modulo(key1, modulo);
+    Matrix<int> inversed2 = inverse_modulo(key2, modulo);
+    cipher = hill_recurrent_cipher(cipher, inversed1, inversed2, modulo, true);
+    return cipher;
+}
 
+// works only for block size of 2, because there is no automated equation solver
+void hill_cipher_cracker(std::string cipher, std::string known_part, int modulo, int block_size=2)
+{
+    auto cipher_line = get_character_line(cipher, block_size);
+    auto known_line = get_character_line(known_part, block_size);
+    int a, b, c, d;
+    a = positive_modulo(positive_modulo(cipher_line[2].first - cipher_line[0].first *
+            reverse_element(known_line[1].first, modulo)*known_line[3].first, modulo) *
+            reverse_element(positive_modulo(known_line[2].first - known_line[0].first *
+            reverse_element(known_line[1].first, modulo) * known_line[3].first, modulo), modulo), modulo);
+    c = positive_modulo((cipher_line[2].first - a*known_line[2].first) *
+            reverse_element(known_line[3].first, modulo), modulo);
+    b = positive_modulo(positive_modulo(cipher_line[3].first - cipher_line[1].first *
+            reverse_element(known_line[1].first, modulo)*known_line[3].first, modulo) *
+            reverse_element(positive_modulo(known_line[2].first - known_line[0].first *
+            reverse_element(known_line[1].first, modulo) * known_line[3].first, modulo), modulo), modulo);
+    d = positive_modulo((cipher_line[3].first - b*known_line[2].first) *
+            reverse_element(known_line[3].first, modulo), modulo);
+    Matrix<int> key(2, 2);
+    key[0][0] = a; key[0][1] = b;
+    key[1][0] = c; key[1][1] = d;
+    std::cout << "cracked matrix is\n" << key << std::endl;
+    std::string answer = hill_cipher_decoder(cipher, key, modulo);
+    std::cout << "cracked answer is\n" << answer << std::endl;
+}
+
+std::string print_string_as_numbers(std::string text, int modulo)
+{
+    for(char letter : lowercase(text))
+        if(is_not_letter(letter))
+            std::cout << "  ";
+        else
+        std::cout << int(letter - 'a') << ' ';
+}
+
+void hill_cipher_test(std::string text, int modulo)
+{
+    Matrix<int> first = get_matrix(modulo);
+    std::string cipher = hill_cipher(text, first, modulo);
+    std::cout << "cipher matrix\n" << first << std::endl;
+    std::cout << "inverse matrix\n" << inverse_modulo(first, modulo) << std::endl;
+    std::cout << "starting text\n" << text << std::endl;
+    print_string_as_numbers(text, modulo);
+    std::cout << '\n';
+    std::cout << "Encoded text\n" << cipher << std::endl;
+    print_string_as_numbers(cipher, modulo);
+    std::cout << '\n';
+    std::cout << "Decoded text\n" << hill_cipher_decoder(cipher, first, modulo) << std::endl;
+    hill_cipher_cracker(cipher, text, modulo);
+}
+
+void hill_recurrent_cipher_test(std::string text, int modulo)
+{
+    Matrix<int> first = get_matrix(modulo);
+    usleep(1e6);
+    Matrix<int> second = get_matrix(modulo);
+    std::string cipher = hill_recurrent_cipher(text, first, second, modulo);
+    std::cout << "Encoded text\n";
+    std::cout << cipher << '\n' << std::endl;
+    std::cout << "Decoded text\n";
+    std::cout << hill_recurrent_cipher_decoder(cipher, first, second, modulo) << std::endl;
 }
 
 int main() {
-    int modulo = 26;
+    int modulo = 29;
     std::string test1 = "Hello there!";
-    Matrix<int> first = get_matrix(modulo);
-    std::string cipher = hill_cipher(test1, first, modulo);
-    std::cout << cipher << std::endl;
-    std::cout << hill_cipher_decoder(cipher, first, modulo);
+    hill_recurrent_cipher_test(test1, modulo);
+    hill_cipher_test(test1, modulo);
+    // Matrix<int> first = get_matrix(modulo);
+    // usleep(1e6);
+    // Matrix<int> second = get_matrix(modulo);
+    // std::string cipher = hill_recurrent_cipher(test1, first, second, modulo);
+    // std::cout << cipher << std::endl;
+    // std::cout << hill_recurrent_cipher_decoder(cipher, first, second, modulo);
     // first[0][0] = 4; first[0][1] = -5;
     // first[1][0] = -3; first[1][1] = 1;
     // Matrix<int> second = inverse_modulo(first, modulo);

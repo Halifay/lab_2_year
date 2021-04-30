@@ -29,7 +29,7 @@ namespace matrix
         // rectangle filled with one value
         Matrix(int, int, int value = 0);
         // with rseed
-        // Matrix(int, int, int, int max = 10);
+        Matrix(int, int, int, int);
         Matrix(const std::vector<std::vector<T>> &);
         Matrix(const std::vector<T> &);
         Matrix(const Matrix<T> &);
@@ -46,6 +46,7 @@ namespace matrix
         Matrix<T> Transpose();
         int rank()const;
         Matrix<T> inverse()const;
+        Matrix<T> inverse_modulo(int modulo)const;
         T m_form_frb()const;
         T scalar(const Matrix<T> &)const;
         T v_norm_max()const;
@@ -68,7 +69,9 @@ namespace matrix
         Matrix<T> operator+(const Matrix<T> &)const;
         Matrix<T> operator-(const Matrix<T> &)const;
         Matrix<T> operator*(const Matrix<T> &)const;
+        Matrix<T> &operator*=(const Matrix<T> &);
         Matrix<T> operator*(T)const;
+        Matrix<T> &operator*=(T);
         Matrix<T> operator/(T)const;
         Matrix<T> hadamard(const Matrix<T> &)const;
         Matrix<T> &operator=(const Matrix<T> &);
