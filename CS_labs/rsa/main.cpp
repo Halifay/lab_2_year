@@ -1,17 +1,28 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-typedef long long desired_type;
+typedef unsigned long long desired_type;
 class RSA
 {
 public:
     desired_type p, q, n;
     desired_type e, phi, d;
 
-    static RSA create_receiver()
+    static RSA create_receiver(desired_type maxlen = 1e4)
     {
         desired_type p, q;
         // TODO: initialize p and q here
+        do{
+            p = rand()%maxlen + 2;
+        }
+        while(! is_prime(p));
+
+        do{
+            q = rand()%maxlen + 2;
+        }
+        while(! is_prime(q));
+
         return create_receiver(p, q);
     };
 
@@ -24,11 +35,8 @@ public:
         if(e == 0)
             for(int i = 0; i < 100; i++)
             {
-                // result.e = rand()%result.phi;
-                // result.e = rand()%result.n;
-                result.e = 7;
-                if(are_mutually_simple(result.e, result.phi));
-                // if(are_mutually_simple(result.e, result.n));
+                result.e = rand()%result.phi;
+                if(are_mutually_simple(result.e, result.phi))
                     break;
             }
         else
@@ -36,8 +44,6 @@ public:
         desired_type second;
         euclid(result.e, result.phi, result.d, second);
         result.d = (result.d + result.phi)%result.phi;
-        // euclid(result.e, result.n, result.d, second);
-        // result.d = (result.d + result.n)%result.n;
         return result;
     }
 
@@ -59,10 +65,20 @@ public:
         return;
     }
 
+    static bool is_prime(desired_type p)
+    {
+        for(int i = 0; i < 30; i++)
+        {
+            if(pow(rand()%p + 1, p-1, p) != 1)
+                return false;
+        }
+        return true;
+    }
+
     static bool are_mutually_simple(desired_type first, desired_type second)
     {
         if(second == 0)
-            return first == 1;
+            return (first == 1);
         return are_mutually_simple(second, first%second);
     }
 
@@ -75,7 +91,7 @@ public:
         return i/8;
     }
 
-    desired_type pow(desired_type word, desired_type power, desired_type modulo)
+    static desired_type pow(desired_type word, desired_type power, desired_type modulo)
     {
         if(power == 0)
             return 1;
@@ -110,10 +126,10 @@ public:
         return cipher;
     }
 
-    std::vector<unsigned char> decode_message(std::vector<unsigned char> message)
+    std::string decode_message(std::vector<unsigned char> message)
     {
         int bytes = module_bytes();
-        std::vector<unsigned char> answer(0);
+        std::string answer;
         for(int i = 0; i < message.size()/(bytes + 1); i++)
         {
             desired_type number = 0;
@@ -136,17 +152,45 @@ public:
 
 };
 
-int main() {
-    std::string text = "Hello there!";
-    std::vector<unsigned char> uctext;
-    for(char letter : text)
-        uctext.push_back(letter);
-    RSA A = RSA::create_receiver(997, 887);
+void example_of_work(std::string text="Hello there!")
+{
+    // srand(time(0));
+    // RSA A = RSA::create_receiver(887, 997, 7);
+    RSA A = RSA::create_receiver();
     RSA B = RSA::create_sender(A.n, A.e);
-    std::vector<unsigned char> cipher = A.encode_message(text);
-    // std::string message = A.decode_message(cipher);
-    std::vector<unsigned char> message = A.decode_message(cipher);
-    // std::cout << "Encoded message\n" << cipher << "\n" << std::endl;
-    // std::cout << "Decoded message \n" << message << "\n" << std::endl;
+    std::vector<unsigned char> cipher = B.encode_message(text);
+    std::string message = A.decode_message(cipher);
+    std::cout << "Encoded message\n";
+    for(unsigned char letter : cipher)
+        std::cout << letter;
+    std::cout << '\n' << std::endl;
+    std::cout << "Decoded message \n" << message << "\n" << std::endl;
+}
+
+void example_of_cracking(std::string text="Hello there!")
+{
+    RSA A = RSA::create_receiver();
+    // we know only e and n, so we can bruteforce divisors of n
+    desired_type e = A.e, n = A.n;
+    desired_type q, p;
+    auto cipher = A.encode_message(text);
+    // brute force for q and p
+    for(q = 2; q < std::sqrt((double)n) + 1; q++)
+    {
+        if(n%q == 0)
+            break;
+    }
+    p = n/q;
+    RSA B = RSA::create_receiver(p, q, e);
+    std::cout << "cracked message:\n" << B.decode_message(cipher) << std::endl;
+    // std::cout << "Test :\n" << A.decode_message(cipher) << std::endl;
+
+
+}
+int main() {
+    example_of_work();
+    std::cout << std::endl;
+    example_of_cracking();
+
     return 0;
 }
