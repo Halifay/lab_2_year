@@ -7,7 +7,7 @@ class RSA
 {
 public:
     desired_type p, q, n;
-    desired_type e, phi, d;
+    desired_type e, phi, d = 0;
 
     static RSA create_receiver(desired_type maxlen = 1e4)
     {
@@ -67,6 +67,9 @@ public:
 
     static bool is_prime(desired_type p)
     {
+        for(int i = 2; i < 30; i++)
+            if(p%i == 0)
+                return false;
         for(int i = 0; i < 30; i++)
         {
             if(pow(rand()%p + 1, p-1, p) != 1)
@@ -128,6 +131,8 @@ public:
 
     std::string decode_message(std::vector<unsigned char> message)
     {
+        if(d == 0)
+            throw std::out_of_range("invalid decipher exponent");
         int bytes = module_bytes();
         std::string answer;
         for(int i = 0; i < message.size()/(bytes + 1); i++)
@@ -154,9 +159,9 @@ public:
 
 void example_of_work(std::string text="Hello there!")
 {
-    // srand(time(0));
-    // RSA A = RSA::create_receiver(887, 997, 7);
-    RSA A = RSA::create_receiver();
+    srand(time(0));
+    RSA A = RSA::create_receiver(887, 997, 7);
+    // RSA A = RSA::create_receiver();
     RSA B = RSA::create_sender(A.n, A.e);
     std::vector<unsigned char> cipher = B.encode_message(text);
     std::string message = A.decode_message(cipher);
@@ -169,11 +174,15 @@ void example_of_work(std::string text="Hello there!")
 
 void example_of_cracking(std::string text="Hello there!")
 {
-    RSA A = RSA::create_receiver();
+    RSA A = RSA::create_receiver(997, 887, 7);
     // we know only e and n, so we can bruteforce divisors of n
     desired_type e = A.e, n = A.n;
     desired_type q, p;
     auto cipher = A.encode_message(text);
+    std::cout << "Encoded message\n";
+    for(unsigned char letter : cipher)
+        std::cout << letter;
+    std::cout << '\n' << std::endl;
     // brute force for q and p
     for(q = 2; q < std::sqrt((double)n) + 1; q++)
     {
@@ -181,12 +190,20 @@ void example_of_cracking(std::string text="Hello there!")
             break;
     }
     p = n/q;
+    std::cout << "p and q are " << p << " and " << q << std::endl;
     RSA B = RSA::create_receiver(p, q, e);
     std::cout << "cracked message:\n" << B.decode_message(cipher) << std::endl;
-    // std::cout << "Test :\n" << A.decode_message(cipher) << std::endl;
-
-
 }
+
+void print_bytes(unsigned char byte)
+{
+    for(int i = 0; i < 8; i++)
+    {
+        std::cout << (byte & 1);
+        byte = byte >> 1;
+    }
+}
+
 int main() {
     example_of_work();
     std::cout << std::endl;
