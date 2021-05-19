@@ -244,7 +244,8 @@ void hill_recurrent_cipher_test(std::string text, int modulo)
 
 int main() {
     int modulo = 29;
-    std::string test1 = "Hello there!";
+    // std::string test1 = "Hello there!";
+    std::string test1 = "hello hello hello";
     hill_recurrent_cipher_test(test1, modulo);
     hill_cipher_test(test1, modulo);
     // Matrix<int> first = get_matrix(modulo);

@@ -160,7 +160,8 @@ public:
 void example_of_work(std::string text="Hello there!")
 {
     srand(time(0));
-    RSA A = RSA::create_receiver(887, 997, 7);
+    // RSA A = RSA::create_receiver(887, 997, 7);
+    RSA A = RSA::create_receiver();
     // RSA A = RSA::create_receiver();
     RSA B = RSA::create_sender(A.n, A.e);
     std::vector<unsigned char> cipher = B.encode_message(text);
